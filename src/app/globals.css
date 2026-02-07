@@ -1,126 +1,408 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
+/* Register CSS variables as Tailwind theme values */
 @theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
+    /* Colors */
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-destructive: hsl(var(--destructive));
+    --color-destructive-foreground: hsl(var(--destructive-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+    --color-sidebar-background: hsl(var(--sidebar-background));
+    --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+    --color-sidebar-primary: hsl(var(--sidebar-primary));
+    --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+    --color-sidebar-accent: hsl(var(--sidebar-accent));
+    --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+    --color-sidebar-border: hsl(var(--sidebar-border));
+    --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+    /* Pride colors */
+    --color-pride-red: hsl(var(--pride-red));
+    --color-pride-orange: hsl(var(--pride-orange));
+    --color-pride-yellow: hsl(var(--pride-yellow));
+    --color-pride-green: hsl(var(--pride-green));
+    --color-pride-blue: hsl(var(--pride-blue));
+    --color-pride-purple: hsl(var(--pride-purple));
+
+    /* Border radius */
     --radius-sm: calc(var(--radius) - 4px);
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
-    --radius-2xl: calc(var(--radius) + 8px);
-    --radius-3xl: calc(var(--radius) + 12px);
-    --radius-4xl: calc(var(--radius) + 16px);
+
+    /* Font family */
+    --font-sans: "Inter", system-ui, sans-serif;
+
+    /* Shadows */
+    --shadow-pride: 0 10px 40px -10px hsl(270 70% 55% / 0.3);
+    --shadow-pride-lg: 0 20px 60px -15px hsl(270 70% 55% / 0.4);
+
+    /* Animations */
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+    --animate-fade-in: fade-in 0.5s ease-out forwards;
+    --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+    --animate-scale-in: scale-in 0.3s ease-out forwards;
+    --animate-slide-in-right: slide-in-right 0.4s ease-out forwards;
+    --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+    --animate-float: float 3s ease-in-out infinite;
 }
 
-:root {
-    --radius: 0.625rem;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+@keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
 }
 
-.dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+@keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Cazenovia Pride Design System - Rainbow themed, accessible, welcoming */
+
+@layer base {
+    :root {
+        /* Core backgrounds */
+        --background: 0 0% 100%;
+        --foreground: 220 20% 20%;
+
+        /* Cards and surfaces */
+        --card: 0 0% 100%;
+        --card-foreground: 220 20% 20%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 220 20% 20%;
+
+        /* Primary - Pride Blue */
+        --primary: 220 90% 50%;
+        --primary-foreground: 0 0% 100%;
+
+        /* Secondary - Soft warm gray */
+        --secondary: 220 10% 96%;
+        --secondary-foreground: 220 20% 20%;
+
+        /* Muted surfaces */
+        --muted: 220 10% 96%;
+        --muted-foreground: 220 10% 45%;
+
+        /* Accent - Warm pink/magenta */
+        --accent: 330 80% 55%;
+        --accent-foreground: 0 0% 100%;
+
+        /* Destructive */
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+
+        /* Borders and inputs */
+        --border: 220 15% 90%;
+        --input: 220 15% 90%;
+        --ring: 220 90% 50%;
+
+        --radius: 0.75rem;
+
+        /* Pride Rainbow Colors */
+        --pride-red: 0 85% 55%;
+        --pride-orange: 30 95% 50%;
+        --pride-yellow: 45 95% 50%;
+        --pride-green: 145 65% 40%;
+        --pride-blue: 210 90% 50%;
+        --pride-purple: 270 70% 55%;
+
+        /* Rainbow Gradient */
+        --gradient-rainbow: linear-gradient(
+            135deg,
+            hsl(0 85% 55%) 0%,
+            hsl(30 95% 50%) 20%,
+            hsl(45 95% 50%) 40%,
+            hsl(145 65% 40%) 60%,
+            hsl(210 90% 50%) 80%,
+            hsl(270 70% 55%) 100%
+        );
+
+        --gradient-rainbow-horizontal: linear-gradient(
+            90deg,
+            hsl(0 85% 55%) 0%,
+            hsl(30 95% 50%) 16.67%,
+            hsl(45 95% 50%) 33.33%,
+            hsl(145 65% 40%) 50%,
+            hsl(210 90% 50%) 66.67%,
+            hsl(270 70% 55%) 83.33%,
+            hsl(0 85% 55%) 100%
+        );
+
+        --gradient-pride-soft: linear-gradient(
+            135deg,
+            hsl(0 85% 95%) 0%,
+            hsl(30 95% 95%) 20%,
+            hsl(45 95% 95%) 40%,
+            hsl(145 65% 92%) 60%,
+            hsl(210 90% 95%) 80%,
+            hsl(270 70% 95%) 100%
+        );
+
+        /* Shadows */
+        --shadow-sm: 0 1px 2px 0 hsl(220 20% 20% / 0.05);
+        --shadow-md:
+            0 4px 6px -1px hsl(220 20% 20% / 0.1),
+            0 2px 4px -2px hsl(220 20% 20% / 0.1);
+        --shadow-lg:
+            0 10px 15px -3px hsl(220 20% 20% / 0.1),
+            0 4px 6px -4px hsl(220 20% 20% / 0.1);
+        --shadow-rainbow: 0 10px 40px -10px hsl(270 70% 55% / 0.3);
+
+        /* Sidebar */
+        --sidebar-background: 0 0% 98%;
+        --sidebar-foreground: 220 20% 20%;
+        --sidebar-primary: 220 90% 50%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 220 10% 96%;
+        --sidebar-accent-foreground: 220 20% 20%;
+        --sidebar-border: 220 15% 90%;
+        --sidebar-ring: 220 90% 50%;
+    }
+
+    .dark {
+        --background: 220 25% 8%;
+        --foreground: 0 0% 98%;
+
+        --card: 220 25% 12%;
+        --card-foreground: 0 0% 98%;
+        --popover: 220 25% 12%;
+        --popover-foreground: 0 0% 98%;
+
+        --primary: 210 90% 60%;
+        --primary-foreground: 220 25% 8%;
+
+        --secondary: 220 20% 20%;
+        --secondary-foreground: 0 0% 98%;
+
+        --muted: 220 20% 20%;
+        --muted-foreground: 220 10% 65%;
+
+        --accent: 330 70% 60%;
+        --accent-foreground: 0 0% 100%;
+
+        --destructive: 0 62% 50%;
+        --destructive-foreground: 0 0% 100%;
+
+        --border: 220 20% 20%;
+        --input: 220 20% 20%;
+        --ring: 210 90% 60%;
+
+        --sidebar-background: 220 25% 10%;
+        --sidebar-foreground: 0 0% 98%;
+        --sidebar-primary: 210 90% 60%;
+        --sidebar-primary-foreground: 220 25% 8%;
+        --sidebar-accent: 220 20% 18%;
+        --sidebar-accent-foreground: 0 0% 98%;
+        --sidebar-border: 220 20% 20%;
+        --sidebar-ring: 210 90% 60%;
+    }
 }
 
 @layer base {
     * {
-        @apply border-border outline-ring/50;
+        border-color: hsl(var(--border));
     }
+
     body {
-        @apply bg-background text-foreground;
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings:
+            "rlig" 1,
+            "calt" 1;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: hsl(var(--foreground));
+    }
+}
+
+@layer components {
+    /* Rainbow gradient text */
+    .text-rainbow {
+        background: var(--gradient-rainbow);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Rainbow gradient backgrounds */
+    .bg-rainbow {
+        background: var(--gradient-rainbow);
+    }
+
+    .bg-rainbow-horizontal {
+        background: var(--gradient-rainbow-horizontal);
+    }
+
+    .bg-pride-soft {
+        background: var(--gradient-pride-soft);
+    }
+
+    /* Rainbow border */
+    .border-rainbow {
+        border: 3px solid transparent;
+        background:
+            linear-gradient(hsl(var(--background)), hsl(var(--background)))
+                padding-box,
+            var(--gradient-rainbow) border-box;
+    }
+
+    /* Rainbow underline */
+    .underline-rainbow {
+        position: relative;
+    }
+
+    .underline-rainbow::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient-rainbow);
+        border-radius: 2px;
+    }
+
+    /* Pride button hover effect */
+    .btn-rainbow-hover {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .btn-rainbow-hover::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gradient-rainbow);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-rainbow-hover:hover::before {
+        opacity: 0.15;
+    }
+
+    /* Card with rainbow accent */
+    .card-pride {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background-color: hsl(var(--card));
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-pride::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-rainbow-horizontal);
+    }
+
+    /* Animated rainbow bar */
+    @keyframes rainbow-slide {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 200% 50%;
+        }
+    }
+
+    .rainbow-bar-animated {
+        background: var(--gradient-rainbow-horizontal);
+        background-size: 200% 100%;
+        animation: rainbow-slide 3s linear infinite;
+    }
+
+    /* Focus ring with rainbow */
+    .focus-rainbow:focus-visible {
+        outline: none;
+        box-shadow:
+            0 0 0 2px hsl(var(--background)),
+            0 0 0 4px hsl(var(--primary));
+    }
+}
+
+@layer utilities {
+    /* Smooth scroll */
+    .scroll-smooth {
+        scroll-behavior: smooth;
+    }
+
+    /* Hide scrollbar but allow scroll */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Glass effect */
+    .glass {
+        background: hsl(var(--background) / 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
     }
 }

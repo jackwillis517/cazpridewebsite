@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import cazprideLogo from "@/assets/cazpride.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -21,20 +22,17 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
-      }`}
-    >
-      <div className="container mx-auto px-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background transition-all duration-300">
+      <div className="container h-20 mx-auto px-4">
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <Image
-              src="/caz-pride-logo.png"
+              src={cazprideLogo}
               alt="Caz Pride Logo"
-              width={48}
-              height={48}
-              className="rounded-full shadow-md transition-transform group-hover:scale-105"
+              width={64}
+              height={64}
+              className="rounded-full transition-transform group-hover:scale-105"
             />
             <span className="font-bold text-xl text-foreground hidden sm:block">
               Cazenovia Pride
@@ -85,7 +83,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 glass border-t border-border animate-fade-in">
+        <div className="lg:hidden absolute top-full left-0 right-0 w-screen bg-background border-t border-border animate-fade-in">
           <div className="container mx-auto px-4 py-4">
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
