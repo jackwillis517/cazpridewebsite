@@ -1,163 +1,183 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import {
-  Calendar,
-  MapPin,
-  Clock,
-  ChevronLeft,
-  ChevronRight,
-  Ticket,
-  ArrowRight,
-} from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface Event {
-  id: number;
-  title: string;
-  date: Date;
-  time: string;
+import { UpcomingEvents } from "./upcoming-events";
+import { CalendarView } from "./calendar-view";
+import { PastEvents } from "./past-events";
+
+interface GoogleEvent {
+  id: string;
+  summary: string;
   location: string;
   description: string;
-  type: "upcoming" | "past";
-  hasTickets: boolean;
+  start: {
+    dateTime: string;
+    date: string;
+  };
+  end: {
+    dateTime: string;
+    date: string;
+  };
 }
 
-const allEvents: Event[] = [
-  {
-    id: 1,
-    title: "Pride in the Park",
-    date: new Date(2025, 5, 15),
-    time: "12:00 PM - 6:00 PM",
-    location: "Lakeland Park, Cazenovia",
-    description:
-      "Our biggest celebration of the year! Join us for live music, food vendors, family activities, and community connection.",
-    type: "upcoming",
-    hasTickets: true,
-  },
-  {
-    id: 2,
-    title: "Youth Art Workshop",
-    date: new Date(2025, 3, 20),
-    time: "2:00 PM - 5:00 PM",
-    location: "Community Center, 100 Main St",
-    description:
-      "Creative expression workshop for LGBTQIA+ youth ages 13-18 and allies. All art supplies provided.",
-    type: "upcoming",
-    hasTickets: false,
-  },
-  {
-    id: 3,
-    title: "Community Potluck",
-    date: new Date(2025, 2, 8),
-    time: "5:30 PM - 8:00 PM",
-    location: "First Presbyterian Church",
-    description:
-      "Monthly gathering to share food, stories, and community connection. Bring a dish to share!",
-    type: "upcoming",
-    hasTickets: false,
-  },
-  {
-    id: 4,
-    title: "Ally Training Workshop",
-    date: new Date(2025, 3, 5),
-    time: "10:00 AM - 1:00 PM",
-    location: "Cazenovia Library",
-    description:
-      "Learn how to be an effective ally to the LGBTQIA+ community. Open to all ages.",
-    type: "upcoming",
-    hasTickets: true,
-  },
-  {
-    id: 5,
-    title: "Rainbow Run 5K",
-    date: new Date(2025, 4, 10),
-    time: "9:00 AM",
-    location: "Lakeland Park",
-    description:
-      "Fun run/walk supporting Cazenovia Pride. Costumes and rainbow attire encouraged!",
-    type: "upcoming",
-    hasTickets: true,
-  },
-  {
-    id: 6,
-    title: "Winter Fundraiser Gala",
-    date: new Date(2024, 11, 15),
-    time: "6:00 PM - 10:00 PM",
-    location: "Lincklaen House",
-    description:
-      "Our annual winter fundraiser featuring dinner, silent auction, and entertainment.",
-    type: "past",
-    hasTickets: false,
-  },
-];
+interface Event {                                                   
+  id: string;                                                              
+  title: string;                                                           
+  date: Date;                                                              
+  time: string;                                                            
+  location: string;                                                        
+  description: string;                                                     
+  hasTickets: boolean;                                                     
+}                                                                          
+                                                                           
+export interface EventProps {                                              
+  events: Event[];                                                         
+  loading: boolean;                                                        
+  error: string | null;                                                    
+}  
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+export interface CalendarProps {
+  events: Event[];                                                         
+  loading: boolean;                                                        
+  error: string | null;                                                    
+  currentDate: Date;
+  onMonthChange: (date: Date) => void;
+}
+      
 
 export default function Events() {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
+
   const [view, setView] = useState<"upcoming" | "calendar" | "past">(
     "upcoming",
   );
 
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+  // Upcoming Events State
+  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+  const [upcomingLoading, setUpcomingLoading] = useState(true);
+  const [upcomingError, setUpcomingError] = useState<string | null>(null);
 
-  const getDaysInMonth = (month: number, year: number) => {
-    return new Date(year, month + 1, 0).getDate();
+  // Calendar View State
+  const [calendarDate, setCalendarDate] = useState(new Date());
+  const [calendarEvents, setCalendarEvents] = useState<Event[]>([]);
+  const [calendarLoading, setCalendarLoading] = useState(false);
+  const [calendarError, setCalendarError] = useState<string | null>(null);
+
+  // Past Events State
+  const [pastEvents, setPastEvents] = useState<Event[]>([]);
+  const [pastLoading, setPastLoading] = useState(true);
+  const [pastError, setPastError] = useState<string | null>(null);
+
+  const formatGoogleEvent = (item: GoogleEvent): Event => {
+    const startDate = item.start.dateTime ? new Date(item.start.dateTime) : new Date(item.start.date);
+    const endDate = item.end.dateTime ? new Date(item.end.dateTime) : new Date(item.end.date);
+
+    const timeString = item.start.dateTime && item.end.dateTime
+      ? `${startDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
+      : "All Day";
+
+    return {
+      id: item.id,
+      title: item.summary,
+      date: startDate,
+      time: timeString,
+      location: item.location || "TBD",
+      description: item.description || "No description provided.",
+      hasTickets: false,
+    };
   };
 
-  const getFirstDayOfMonth = (month: number, year: number) => {
-    return new Date(year, month, 1).getDay();
-  };
+  // Fetch Upcoming Events
+  useEffect(() => {
+    const fetchUpcoming = async () => {
+      try {
+        setUpcomingLoading(true);
+        const now = new Date();
+        const timeMin = now.toISOString();
 
-  const daysInMonth = getDaysInMonth(currentMonth, currentYear);
-  const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=5`
+        );
 
-  const eventsInMonth = allEvents.filter((event) => {
-    return (
-      event.date.getMonth() === currentMonth &&
-      event.date.getFullYear() === currentYear
-    );
-  });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-  const upcomingEvents = allEvents
-    .filter((e) => e.type === "upcoming")
-    .sort((a, b) => a.date.getTime() - b.date.getTime());
-  const pastEvents = allEvents
-    .filter((e) => e.type === "past")
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
+        const data = await response.json();
+        setUpcomingEvents(data.items.map(formatGoogleEvent));
+      } catch (err) {
+        setUpcomingError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setUpcomingLoading(false);
+      }
+    };
 
-  const previousMonth = () => {
-    setCurrentDate(new Date(currentYear, currentMonth - 1, 1));
-  };
+    fetchUpcoming();
+  }, [CALENDAR_API_KEY, CALENDAR_ID]);
 
-  const nextMonth = () => {
-    setCurrentDate(new Date(currentYear, currentMonth + 1, 1));
-  };
+  // Fetch Calendar Events
+  const fetchCalendarEvents = useCallback(async (date: Date) => {
+    try {
+      setCalendarLoading(true);
+      const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+      const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+      const timeMin = startOfMonth.toISOString();
+      const timeMax = endOfMonth.toISOString();
+
+      const response = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`
+      );
+
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const data = await response.json();
+      setCalendarEvents(data.items.map(formatGoogleEvent));
+    } catch (err) {
+      setCalendarError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setCalendarLoading(false);
+    }
+  }, [CALENDAR_API_KEY, CALENDAR_ID]);
+
+  useEffect(() => {
+    fetchCalendarEvents(calendarDate);
+  }, [fetchCalendarEvents, calendarDate]);
+
+  // Fetch Past Events
+  useEffect(() => {
+    const fetchPast = async () => {
+      try {
+        setPastLoading(true);
+        const now = new Date();
+        const timeMax = now.toISOString();
+        // Go back 1 year for past events search
+        const oneYearAgo = new Date();
+        oneYearAgo.setFullYear(now.getFullYear() - 1);
+        const timeMin = oneYearAgo.toISOString();
+
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`
+        );
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        // Reverse to show most recent past event first, then take top 5
+        const sortedPast = data.items.map(formatGoogleEvent).reverse().slice(0, 5);
+        setPastEvents(sortedPast);
+      } catch (err) {
+        setPastError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setPastLoading(false);
+      }
+    };
+
+    fetchPast();
+  }, [CALENDAR_API_KEY, CALENDAR_ID]);
 
   return (
     <>
@@ -214,167 +234,28 @@ export default function Events() {
       {/* Content */}
       <section className="py-12 bg-background">
         <div className="container mx-auto px-4">
-          {/* Upcoming Events View */}
           {view === "upcoming" && (
-            <div className="max-w-4xl mx-auto space-y-6">
-              {upcomingEvents.length > 0 ? (
-                upcomingEvents.map((event) => (
-                  <div
-                    key={event.id}
-                    className="card-pride bg-background p-6 md:p-8"
-                  >
-                    <div className="flex flex-col md:flex-row md:items-start gap-6">
-                      <div className="flex-shrink-0 text-center md:text-left">
-                        <div className="text-4xl font-bold text-accent">
-                          {event.date.getDate()}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {months[event.date.getMonth()].slice(0, 3)}{" "}
-                          {event.date.getFullYear()}
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-foreground mb-2">
-                          {event.title}
-                        </h3>
-                        <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
-                            {event.time}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            {event.location}
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground mb-4">
-                          {event.description}
-                        </p>
-                        {event.hasTickets && (
-                          <Button variant="rainbow" size="sm">
-                            <Ticket className="h-4 w-4 mr-2" />
-                            Register / Get Tickets
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground">
-                    No upcoming events at this time. Check back soon!
-                  </p>
-                </div>
-              )}
-            </div>
+            <UpcomingEvents
+              events={upcomingEvents}
+              loading={upcomingLoading}
+              error={upcomingError}
+            />
           )}
-
-          {/* Calendar View */}
           {view === "calendar" && (
-            <div className="max-w-4xl mx-auto">
-              {/* Calendar Header */}
-              <div className="flex items-center justify-between mb-6">
-                <Button variant="ghost" size="icon" onClick={previousMonth}>
-                  <ChevronLeft className="h-5 w-5" />
-                </Button>
-                <h2 className="text-xl font-bold text-foreground">
-                  {months[currentMonth]} {currentYear}
-                </h2>
-                <Button variant="ghost" size="icon" onClick={nextMonth}>
-                  <ChevronRight className="h-5 w-5" />
-                </Button>
-              </div>
-
-              {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-1 mb-8">
-                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                  (day) => (
-                    <div
-                      key={day}
-                      className="text-center text-sm font-medium text-muted-foreground py-2"
-                    >
-                      {day}
-                    </div>
-                  ),
-                )}
-                {Array.from({ length: firstDay }).map((_, i) => (
-                  <div key={`empty-${i}`} className="aspect-square" />
-                ))}
-                {Array.from({ length: daysInMonth }).map((_, i) => {
-                  const day = i + 1;
-                  const hasEvent = eventsInMonth.some(
-                    (e) => e.date.getDate() === day,
-                  );
-                  return (
-                    <div
-                      key={day}
-                      className={`aspect-square flex items-center justify-center rounded-lg text-sm ${
-                        hasEvent
-                          ? "bg-rainbow text-primary-foreground font-bold"
-                          : "hover:bg-secondary"
-                      }`}
-                    >
-                      {day}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Events this month */}
-              {eventsInMonth.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="font-bold text-foreground">
-                    Events this month:
-                  </h3>
-                  {eventsInMonth.map((event) => (
-                    <div key={event.id} className="p-4 bg-secondary rounded-lg">
-                      <div className="font-medium text-foreground">
-                        {event.title}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {formatDate(event.date)} • {event.time}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <CalendarView 
+              events={calendarEvents} 
+              loading={calendarLoading}
+              error={calendarError}
+              currentDate={calendarDate}
+              onMonthChange={setCalendarDate}
+            />
           )}
-
-          {/* Past Events View */}
           {view === "past" && (
-            <div className="max-w-4xl mx-auto space-y-6">
-              <h3 className="text-lg font-semibold text-muted-foreground mb-4">
-                Past Events Archive
-              </h3>
-              {pastEvents.length > 0 ? (
-                pastEvents.map((event) => (
-                  <div
-                    key={event.id}
-                    className="p-6 bg-secondary rounded-xl opacity-75"
-                  >
-                    <h3 className="text-lg font-bold text-foreground mb-2">
-                      {event.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {formatDate(event.date)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {event.location}
-                      </span>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-muted-foreground">
-                  No past events to display.
-                </p>
-              )}
-            </div>
+            <PastEvents 
+              events={pastEvents}
+              loading={pastLoading}
+              error={pastError}
+            />
           )}
         </div>
       </section>

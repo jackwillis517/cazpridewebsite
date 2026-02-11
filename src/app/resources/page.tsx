@@ -110,6 +110,86 @@ export default function Resources() {
         </div>
       </section>
 
+      {/* Educational Resources */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Educational Materials
+            </h2>
+            <p className="text-muted-foreground">
+              Downloadable guides and resources for learning and growth.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {educationalResources.map((resource) => (
+              <div
+                key={resource.title}
+                className="card-pride bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
+              >
+                <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <resource.icon className="h-7 w-7 text-accent" />
+                </div>
+                <h3 className="font-bold text-foreground mb-1">
+                  {resource.title}
+                </h3>
+                <p className="text-xs text-accent font-medium mb-2">
+                  {resource.type}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {resource.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-sm text-muted-foreground mt-8">
+            * PDF downloads will be available soon. Contact us for more
+            information.
+          </p>
+        </div>
+      </section>
+
+      {/* Support Organizations */}
+      <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Support Organizations
+            </h2>
+            <p className="text-muted-foreground">
+              National and local organizations providing ongoing support and
+              advocacy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {supportOrganizations.map((org) => (
+              <a
+                key={org.name}
+                href={org.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-pride bg-background p-6 flex items-start gap-4 hover:shadow-lg transition-all hover:-translate-y-1 group"
+              >
+                <div className="h-12 w-12 rounded-lg bg-pride-soft flex items-center justify-center flex-shrink-0">
+                  <org.icon className="h-6 w-6 text-accent" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    {org.name}
+                    <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {org.description}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Crisis Support */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
@@ -158,86 +238,6 @@ export default function Resources() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Support Organizations */}
-      <section className="py-20 bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Support Organizations
-            </h2>
-            <p className="text-muted-foreground">
-              National and local organizations providing ongoing support and
-              advocacy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {supportOrganizations.map((org) => (
-              <a
-                key={org.name}
-                href={org.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="card-pride bg-background p-6 flex items-start gap-4 hover:shadow-lg transition-all hover:-translate-y-1 group"
-              >
-                <div className="h-12 w-12 rounded-lg bg-pride-soft flex items-center justify-center flex-shrink-0">
-                  <org.icon className="h-6 w-6 text-accent" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                    {org.name}
-                    <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {org.description}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Educational Resources */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Educational Materials
-            </h2>
-            <p className="text-muted-foreground">
-              Downloadable guides and resources for learning and growth.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {educationalResources.map((resource) => (
-              <div
-                key={resource.title}
-                className="card-pride bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
-              >
-                <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <resource.icon className="h-7 w-7 text-accent" />
-                </div>
-                <h3 className="font-bold text-foreground mb-1">
-                  {resource.title}
-                </h3>
-                <p className="text-xs text-accent font-medium mb-2">
-                  {resource.type}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {resource.description}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-sm text-muted-foreground mt-8">
-            * PDF downloads will be available soon. Contact us for more
-            information.
-          </p>
         </div>
       </section>
 
