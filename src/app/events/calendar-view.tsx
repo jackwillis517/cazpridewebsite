@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Event, formatGoogleEvent } from "./page";
-import { eventCache } from "@/lib/event-cache";
+import { Event, EventCache, formatGoogleEvent } from "@/lib/event-utils" 
 
 const months = [
   "January",
@@ -32,7 +31,7 @@ export function CalendarView() {
 
   useEffect(() => { 
     const cacheKey = `calendar_events_${date.getFullYear()}_${date.getMonth()}`;
-    const cachedData = eventCache.get(cacheKey);
+    const cachedData = EventCache.get(cacheKey);
 
     if (cachedData) {
       setEvents(cachedData);
@@ -61,7 +60,7 @@ export function CalendarView() {
         const data = await response.json();
         const formattedEvents = data.items.map(formatGoogleEvent);
         setEvents(formattedEvents);
-        eventCache.set(cacheKey, formattedEvents);
+        EventCache.set(cacheKey, formattedEvents);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "Unknown error");

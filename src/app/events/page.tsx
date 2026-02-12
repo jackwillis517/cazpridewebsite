@@ -9,51 +9,6 @@ import { UpcomingEvents } from "./upcoming-events";
 import { CalendarView } from "./calendar-view";
 import { PastEvents } from "./past-events";
 
-interface GoogleEvent {
-  id: string;
-  summary: string;
-  location: string;
-  description: string;
-  start: {
-    dateTime: string;
-    date: string;
-  };
-  end: {
-    dateTime: string;
-    date: string;
-  };
-}
-
-export interface Event {                                                   
-  id: string;                                                              
-  title: string;                                                           
-  date: Date;                                                              
-  time: string;                                                            
-  location: string;                                                        
-  description: string;                                                     
-  hasTickets: boolean;                                                     
-}                                                                          
-
-export const formatGoogleEvent = (item: GoogleEvent): Event => {
-  const startDate = item.start.dateTime ? new Date(item.start.dateTime) : new Date(item.start.date);
-  const endDate = item.end.dateTime ? new Date(item.end.dateTime) : new Date(item.end.date);
-
-  const timeString = item.start.dateTime && item.end.dateTime
-    ? `${startDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
-    : "All Day";
-
-  return {
-    id: item.id,
-    title: item.summary,
-    date: startDate,
-    time: timeString,
-    location: item.location || "TBD",
-    description: item.description || "No description provided.",
-    hasTickets: false,
-  };
-};
-      
-
 export default function Events() {
   const [view, setView] = useState<"upcoming" | "calendar" | "past">(
     "upcoming",
