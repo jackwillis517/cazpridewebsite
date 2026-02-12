@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -11,35 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cazpride from "@/assets/cazpride.png";
-
-const upcomingEvents = [
-  {
-    id: 1,
-    title: "Pride in the Park",
-    date: "June 15, 2025",
-    time: "12:00 PM - 6:00 PM",
-    location: "Lakeland Park, Cazenovia",
-    description:
-      "Annual celebration with live music, food vendors, and family activities.",
-  },
-  {
-    id: 2,
-    title: "Youth Art Workshop",
-    date: "April 20, 2025",
-    time: "2:00 PM - 5:00 PM",
-    location: "Community Center",
-    description: "Creative expression workshop for LGBTQIA+ youth and allies.",
-  },
-  {
-    id: 3,
-    title: "Community Potluck",
-    date: "March 8, 2025",
-    time: "5:30 PM - 8:00 PM",
-    location: "First Presbyterian Church",
-    description:
-      "Monthly gathering to share food, stories, and community connection.",
-  },
-];
+import { EventCache } from "@/lib/event-utils";
+import { Event, formatGoogleEvent } from "@/lib/event-utils";
 
 const impactStats = [
   { number: "500+", label: "Community Members", icon: Users },
@@ -57,6 +33,53 @@ const galleryPlaceholders = [
 ];
 
 export default function Home() {
+  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
+
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const cacheKey = "home_upcoming_events";
+    const cachedData = EventCache.get(cacheKey);
+
+    if (cachedData) {
+      setEvents(cachedData);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        const now = new Date();
+        const timeMin = now.toISOString();
+
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=3`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) throw new Error("Failed to fetch");
+
+        const data = await response.json();
+        const formatted = data.items.map(formatGoogleEvent);
+        setEvents(formatted);
+        EventCache.set(cacheKey, formatted);
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+    return () => controller.abort();
+  }, [CALENDAR_API_KEY, CALENDAR_ID]);
+
   return (
     <>
       {/* Hero Section */}
@@ -192,27 +215,41 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.map((event) => (
-              <div
-                key={event.id}
-                className="card-pride bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-2 text-accent text-sm font-medium mb-3">
-                  <Calendar className="h-4 w-4" />
-                  {event.date} • {event.time}
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  {event.title}
-                </h3>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-4">
-                  <MapPin className="h-4 w-4" />
-                  {event.location}
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  {event.description}
-                </p>
+            {loading ? (
+              <div className="col-span-full text-center py-12 text-muted-foreground">
+                Loading upcoming events...
               </div>
-            ))}
+            ) : events.length > 0 ? (
+              events.map((event) => (
+                <div
+                  key={event.id}
+                  className="card-pride bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1"
+                >
+                  <div className="flex items-center gap-2 text-accent text-sm font-medium mb-3">
+                    <Calendar className="h-4 w-4" />
+                    {event.date.toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })} • {event.time}
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">
+                    {event.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-muted-foreground text-sm mb-4">
+                    <MapPin className="h-4 w-4" />
+                    {event.location}
+                  </div>
+                  <p className="text-muted-foreground text-sm">
+                    {event.description}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12 text-muted-foreground">
+                No upcoming events found.
+              </div>
+            )}
           </div>
         </div>
       </section>

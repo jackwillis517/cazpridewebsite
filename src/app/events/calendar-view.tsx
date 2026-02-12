@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CalendarProps } from "./page";
+import { Event, EventCache, formatGoogleEvent } from "@/lib/event-utils" 
 
 const months = [
   "January",
@@ -19,9 +20,62 @@ const months = [
   "December",
 ];
 
-export function CalendarView({events, loading, error, currentDate, onMonthChange}: CalendarProps) {
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+export function CalendarView() {
+  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
+
+  const [date, setDate] = useState(new Date());
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => { 
+    const cacheKey = `calendar_events_${date.getFullYear()}_${date.getMonth()}`;
+    const cachedData = EventCache.get(cacheKey);
+
+    if (cachedData) {
+      setEvents(cachedData);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchMonth = async () => {
+      try {
+        setLoading(true);
+        const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59);
+
+        const timeMin = startOfMonth.toISOString();
+        const timeMax = endOfMonth.toISOString();
+
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        const formattedEvents = data.items.map(formatGoogleEvent);
+        setEvents(formattedEvents);
+        EventCache.set(cacheKey, formattedEvents);
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMonth();
+
+    return () => controller.abort();
+  }, [CALENDAR_API_KEY, CALENDAR_ID, date]);
+
+  const currentMonth = date.getMonth();
+  const currentYear = date.getFullYear();
 
   const getDaysInMonth = (month: number, year: number) => {
     return new Date(year, month + 1, 0).getDate();
@@ -35,11 +89,11 @@ export function CalendarView({events, loading, error, currentDate, onMonthChange
   const firstDay = getFirstDayOfMonth(currentMonth, currentYear);
 
   const previousMonth = () => {
-    onMonthChange(new Date(currentYear, currentMonth - 1, 1));
+    setDate(new Date(currentYear, currentMonth - 1, 1));
   };
 
   const nextMonth = () => {
-    onMonthChange(new Date(currentYear, currentMonth + 1, 1));
+    setDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
   const formatDate = (date: Date) => {
