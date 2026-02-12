@@ -1,15 +1,67 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Clock, MapPin, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EventProps } from "./page" 
+import { Event, formatGoogleEvent } from "./page" 
+import { eventCache } from "@/lib/event-cache";
 
 const months = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
-export function UpcomingEvents({ events, loading, error }: EventProps) {
+export function UpcomingEvents() {
+  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
+  
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cacheKey = "upcoming_events";
+    const cachedData = eventCache.get(cacheKey);
+
+    if (cachedData) {
+      setEvents(cachedData);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchUpcoming = async () => {
+      try {
+        setLoading(true);
+        const now = new Date();
+        const timeMin = now.toISOString();
+
+        const response = await fetch(
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=5`,
+          { signal: controller.signal }
+        );
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        const formattedEvents = data.items.map(formatGoogleEvent);
+        setEvents(formattedEvents);
+        eventCache.set(cacheKey, formattedEvents);
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUpcoming();
+
+    return () => controller.abort();
+  }, [CALENDAR_API_KEY, CALENDAR_ID]);
+
+
   if (loading) {
     return <div className="text-center py-12">Loading upcoming events...</div>;
   }
