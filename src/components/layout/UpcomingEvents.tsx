@@ -3,31 +3,41 @@
 import { useEffect, useState } from "react";
 import { Clock, MapPin, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Event, formatGoogleEvent } from "../../lib/event-utils" 
-import { EventCache } from "@/lib/event-utils";
+import { Event, formatGoogleEvent } from "@/lib/event-utils";
 
 const months = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 export function UpcomingEvents() {
-  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_API_KEY =
+    process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
   const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
-  
+
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const cacheKey = "upcoming_events";
-    const cachedData = EventCache.get(cacheKey);
+    // const cacheKey = "upcoming_events";
+    // const cachedData = EventCache.get(cacheKey);
 
-    if (cachedData) {
-      setEvents(cachedData);
-      setLoading(false);
-      return;
-    }
+    // if (cachedData) {
+    //   setEvents(cachedData);
+    //   setLoading(false);
+    //   return;
+    // }
 
     const controller = new AbortController();
 
@@ -39,15 +49,16 @@ export function UpcomingEvents() {
 
         const response = await fetch(
           `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=5`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
         const formattedEvents = data.items.map(formatGoogleEvent);
         setEvents(formattedEvents);
-        EventCache.set(cacheKey, formattedEvents);
+        // EventCache.set(cacheKey, formattedEvents);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -61,7 +72,6 @@ export function UpcomingEvents() {
     return () => controller.abort();
   }, [CALENDAR_API_KEY, CALENDAR_ID]);
 
-
   if (loading) {
     return <div className="text-center py-12">Loading upcoming events...</div>;
   }
@@ -74,10 +84,7 @@ export function UpcomingEvents() {
     <div className="max-w-4xl mx-auto space-y-6">
       {events.length > 0 ? (
         events.map((event) => (
-          <div
-            key={event.id}
-            className="card-pride bg-background p-6 md:p-8"
-          >
+          <div key={event.id} className="card-pride bg-background p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-start gap-6">
               <div className="flex-shrink-0 text-center md:text-left">
                 <div className="text-4xl font-bold text-accent">

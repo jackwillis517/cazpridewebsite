@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Calendar, MapPin } from "lucide-react";
-import { Event, formatGoogleEvent } from "../../lib/event-utils" 
-import { EventCache } from "@/lib/event-utils";
+import { Event, formatGoogleEvent } from "@/lib/event-utils";
 
 export function PastEvents() {
-  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_API_KEY =
+    process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
   const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
 
   const [events, setEvents] = useState<Event[]>([]);
@@ -14,14 +14,14 @@ export function PastEvents() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const cacheKey = "past_events";
-    const cachedData = EventCache.get(cacheKey);
+    // const cacheKey = "past_events";
+    // const cachedData = EventCache.get(cacheKey);
 
-    if (cachedData) {
-      setEvents(cachedData);
-      setLoading(false);
-      return;
-    }
+    // if (cachedData) {
+    //   setEvents(cachedData);
+    //   setLoading(false);
+    //   return;
+    // }
 
     const controller = new AbortController();
 
@@ -37,16 +37,20 @@ export function PastEvents() {
 
         const response = await fetch(
           `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok)
+          throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
         // Reverse to show most recent past event first, then take top 5
-        const formattedEvents = data.items.map(formatGoogleEvent).reverse().slice(0, 5);
+        const formattedEvents = data.items
+          .map(formatGoogleEvent)
+          .reverse()
+          .slice(0, 5);
         setEvents(formattedEvents);
-        EventCache.set(cacheKey, formattedEvents);
+        // EventCache.set(cacheKey, formattedEvents);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "Unknown error");

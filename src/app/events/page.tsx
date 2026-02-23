@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Calendar, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { UpcomingEvents } from "./upcoming-events";
-import { CalendarView } from "./calendar-view";
-import { PastEvents } from "./past-events";
+import { UpcomingEvents } from "@/components/layout/UpcomingEvents";
+import { CalendarView } from "@/components/layout/CalendarView";
+import { PastEvents } from "@/components/layout/PastEvents";
 
 export default function Events() {
   const [view, setView] = useState<"upcoming" | "calendar" | "past">(
