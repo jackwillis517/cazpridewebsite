@@ -1,43 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Heart, Users, Target, Shield, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const boardMembers = [
+const boardMembers: {
+  name: string;
+  pronouns?: string;
+  role: string;
+  bio: string;
+  color: string;
+  photo?: string;
+}[] = [
   {
-    name: "Sarah Mitchell",
-    role: "Board President",
+    name: "Danielle Synborski",
+    pronouns: "She/Her",
+    role: "President",
     bio: "Community advocate with 10+ years of nonprofit leadership experience.",
     color: "bg-pink-200",
+    photo: "/headshots/Danielle.jpg",
   },
   {
-    name: "James Chen",
+    name: "Meg Tobin",
+    pronouns: "She/Her",
     role: "Vice President",
     bio: "Local business owner and longtime supporter of LGBTQIA+ rights.",
     color: "bg-blue-200",
+    photo: "/headshots/Meg.jpg",
   },
   {
-    name: "Dr. Maria Santos",
-    role: "Secretary",
+    name: "Matt Synborski",
+    pronouns: "He/Him",
+    role: "Treasurer",
     bio: "Educator and researcher focused on inclusive community development.",
     color: "bg-purple-200",
+    photo: "/headshots/Matt.jpg",
   },
   {
-    name: "Alex Thompson",
-    role: "Treasurer",
+    name: "Alyssa Biviano",
+    pronouns: "She/Her",
+    role: "Secretary",
     bio: "Financial professional dedicated to transparent nonprofit management.",
     color: "bg-green-200",
+    photo: "/headshots/Alyssa.png",
   },
   {
-    name: "Robin Patterson",
-    role: "Director of Outreach",
+    name: "Karina Argentine",
+    pronouns: "She/Her",
+    role: "Director of Programs & Events",
     bio: "Social worker passionate about connecting community members with resources.",
     color: "bg-yellow-200",
+    photo: "/headshots/Karina.jpg",
   },
   {
-    name: "Michael Brooks",
-    role: "Director of Events",
+    name: "Beth Ann",
+    pronouns: "She/Her",
+    role: "Director at Large",
     bio: "Event coordinator bringing years of experience in community celebrations.",
     color: "bg-red-200",
+    // photo: "/headshots/.jpg",
+  },
+  {
+    name: "Lori Lewis",
+    pronouns: "She/Her",
+    role: "Director at Large",
+    bio: "Event coordinator bringing years of experience in community celebrations.",
+
+    color: "bg-yellow-200",
+    // photo: "/headshots/.jpg",
   },
 ];
 
@@ -131,8 +160,61 @@ export default function About() {
         </div>
       </section>
 
-      {/* Our Values */}
+      {/* Board of Directors */}
       <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Board of Directors
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Meet the dedicated volunteers who guide our organization.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {boardMembers.map((member) => (
+              <div
+                key={member.name}
+                className="card-pride bg-background p-6 text-center"
+              >
+                {member.photo ? (
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    width={96}
+                    height={96}
+                    className="h-24 w-24 rounded-full mx-auto mb-4 shadow-md object-cover"
+                  />
+                ) : (
+                  <div
+                    className={`h-24 w-24 rounded-full ${member.color} mx-auto mb-4 shadow-md flex items-center justify-center text-2xl font-bold text-foreground/40`}
+                  >
+                    {member.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </div>
+                )}
+                <h3 className="text-lg font-bold text-foreground">
+                  {member.name}
+                </h3>
+                {member.pronouns && (
+                  <p className="text-sm text-muted-foreground italic">
+                    {member.pronouns}
+                  </p>
+                )}
+                <p className="text-sm font-bold text-accent mb-2">
+                  {member.role}
+                </p>
+                <p className="text-sm text-muted-foreground">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -157,44 +239,6 @@ export default function About() {
                 <p className="text-sm text-muted-foreground">
                   {value.description}
                 </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Board of Directors */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Board of Directors
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Meet the dedicated volunteers who guide our organization.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {boardMembers.map((member) => (
-              <div
-                key={member.name}
-                className="card-pride bg-background p-6 text-center"
-              >
-                <div
-                  className={`h-24 w-24 rounded-full ${member.color} mx-auto mb-4 shadow-md flex items-center justify-center text-2xl font-bold text-foreground/40`}
-                >
-                  {member.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <h3 className="text-lg font-bold text-foreground">
-                  {member.name}
-                </h3>
-                <p className="text-sm font-medium text-accent mb-2">
-                  {member.role}
-                </p>
-                <p className="text-sm text-muted-foreground">{member.bio}</p>
               </div>
             ))}
           </div>

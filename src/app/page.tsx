@@ -33,21 +33,22 @@ const galleryPlaceholders = [
 ];
 
 export default function Home() {
-  const CALENDAR_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
+  const CALENDAR_API_KEY =
+    process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY || "";
   const CALENDAR_ID = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID || "";
 
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const cacheKey = "home_upcoming_events";
-    const cachedData = EventCache.get(cacheKey);
+    // const cacheKey = "home_upcoming_events";
+    // const cachedData = EventCache.get(cacheKey);
 
-    if (cachedData) {
-      setEvents(cachedData);
-      setLoading(false);
-      return;
-    }
+    // if (cachedData) {
+    //   setEvents(cachedData);
+    //   setLoading(false);
+    //   return;
+    // }
 
     const controller = new AbortController();
 
@@ -59,7 +60,7 @@ export default function Home() {
 
         const response = await fetch(
           `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=3`,
-          { signal: controller.signal }
+          { signal: controller.signal },
         );
 
         if (!response.ok) throw new Error("Failed to fetch");
@@ -67,7 +68,7 @@ export default function Home() {
         const data = await response.json();
         const formatted = data.items.map(formatGoogleEvent);
         setEvents(formatted);
-        EventCache.set(cacheKey, formatted);
+        // EventCache.set(cacheKey, formatted);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         console.error(err);
@@ -83,7 +84,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Background Placeholder */}
         <div className="absolute inset-0">
           <div className="w-full h-full bg-gradient-to-br from-purple-300 via-pink-200 to-blue-300" />
@@ -133,7 +134,7 @@ export default function Home() {
                   Support Our Mission
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
+              <Button asChild variant="pride" size="lg">
                 <Link href="/events" className="flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
                   Upcoming Events
@@ -168,28 +169,6 @@ export default function Home() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Impact Stats */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {impactStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="card-pride p-8 text-center hover:shadow-lg transition-shadow"
-              >
-                <stat.icon className="h-10 w-10 mx-auto mb-4 text-accent" />
-                <div className="text-4xl font-bold text-rainbow mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -231,7 +210,8 @@ export default function Home() {
                       month: "long",
                       day: "numeric",
                       year: "numeric",
-                    })} • {event.time}
+                    })}{" "}
+                    • {event.time}
                   </div>
                   <h3 className="text-xl font-bold text-foreground mb-2">
                     {event.title}
@@ -250,6 +230,28 @@ export default function Home() {
                 No upcoming events found.
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Impact Stats */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {impactStats.map((stat) => (
+              <div
+                key={stat.label}
+                className="card-pride p-8 text-center hover:shadow-lg transition-shadow"
+              >
+                <stat.icon className="h-10 w-10 mx-auto mb-4 text-accent" />
+                <div className="text-4xl font-bold text-rainbow mb-2">
+                  {stat.number}
+                </div>
+                <div className="text-muted-foreground font-medium">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
