@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -23,6 +23,22 @@ export function Header() {
   const pathname = usePathname();
   const [nextEvent, setNextEvent] = useState<Event | null>(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [bannerHeight, setBannerHeight] = useState(0);
+  const bannerRef = useRef<HTMLDivElement>(null);
+
+  const updateBannerHeight = useCallback(() => {
+    if (bannerRef.current) {
+      setBannerHeight(bannerRef.current.offsetHeight);
+    } else {
+      setBannerHeight(0);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateBannerHeight();
+    window.addEventListener("resize", updateBannerHeight);
+    return () => window.removeEventListener("resize", updateBannerHeight);
+  }, [nextEvent, bannerDismissed, updateBannerHeight]);
 
   useEffect(() => {
     const CALENDAR_API_KEY =
@@ -79,7 +95,7 @@ export function Header() {
     <>
       {/* Event Banner */}
       {nextEvent && !bannerDismissed && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-accent text-accent-foreground">
+        <div ref={bannerRef} className="fixed top-0 left-0 right-0 z-50 bg-accent text-accent-foreground">
           <Link href="/events" className="container mx-auto px-4 py-3 flex items-center justify-center gap-2 text-center pr-10 sm:pr-12 block hover:bg-accent/80 transition-colors">
             <p className="text-sm md:text-lg font-medium">
               Save the Date!{" "}
@@ -102,9 +118,8 @@ export function Header() {
       )}
 
       <header
-        className={`fixed left-0 right-0 z-50 bg-background transition-all duration-300 ${
-          nextEvent && !bannerDismissed ? "top-[80px] sm:top-[48px]" : "top-0"
-        }`}
+        className="fixed left-0 right-0 z-50 bg-background transition-all duration-300"
+        style={{ top: nextEvent && !bannerDismissed ? `${bannerHeight}px` : 0 }}
       >
         <div className="container h-20 mx-auto px-4">
           <nav className="flex items-center justify-between">
@@ -206,6 +221,9 @@ export function Header() {
         {/* Rainbow bar at top */}
         <div className="absolute bottom-0 left-0 right-0 h-1 rainbow-bar-animated opacity-80" />
       </header>
+
+      {/* Spacer to push content below fixed header + banner */}
+      <div style={{ height: bannerHeight + 80 }} />
     </>
   );
 }
