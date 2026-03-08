@@ -1,14 +1,16 @@
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 // Interfaces
-export interface Event {                                                   
-  id: string;                                                              
-  title: string;                                                           
-  date: Date;                                                              
-  time: string;                                                            
-  location: string;                                                        
-  description: string;                                                     
-  hasTickets: boolean;                                                     
+export interface Event {
+  id: string;
+  title: string;
+  date: Date;
+  time: string;
+  location: string;
+  description: string;
+  rawDescription: string;
+  link: string | null;
+  hasTickets: boolean;
 }
 
 interface GoogleEvent {
@@ -91,13 +93,23 @@ export const formatGoogleEvent = (item: GoogleEvent): Event => {
       .join(", ");
   };
 
+  const rawDescription = item.description || "";
+  const ticketMatch = rawDescription.match(/Tickets?:\s*<a\s[^>]*href=["']([^"']*)["'][^>]*>.*?<\/a>/i);
+  const ticketLink = ticketMatch ? ticketMatch[1] : null;
+  const description = rawDescription
+    .replace(/<a\s[^>]*>.*?<\/a>/gi, "")
+    .replace(/<[^>]*>/g, "")
+    .trim() || "No description provided.";
+
   return {
     id: item.id,
     title: item.summary,
     date: startDate,
     time: timeString,
     location: cleanLocation(item.location),
-    description: item.description || "No description provided.",
-    hasTickets: false,
+    description,
+    rawDescription,
+    link: ticketLink,
+    hasTickets: true,
   };
 };

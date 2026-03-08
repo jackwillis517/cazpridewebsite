@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Build FormData with Google Form entry IDs
+  // These IDs are for the Google Form used for the contact form
   const formData = new FormData();
   formData.append("entry.714757105", name.trim());
   formData.append("entry.1098887063", email.trim());

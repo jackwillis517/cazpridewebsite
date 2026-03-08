@@ -8,6 +8,8 @@ import {
   BookOpen,
   Users,
   AlertCircle,
+  Sun,
+  Snowflake,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -63,32 +65,24 @@ const supportOrganizations = [
   },
 ];
 
-const educationalResources = [
+const prideGuides = [
   {
-    title: "Understanding Gender Identity",
-    description:
-      "A comprehensive guide to gender identity terminology and concepts.",
-    type: "PDF Guide",
-    icon: FileText,
+    title: "Winter 2025–2026",
+    url: "https://drive.google.com/file/d/1l--CNHeEprtXvsP3U0RyAke9lVeghI7r/preview",
+    seasonIcon: Snowflake,
+    image: "/prideguides/winter_2025_2026.jpg",
   },
   {
-    title: "Ally Training Materials",
-    description:
-      "Resources for those looking to be better allies to the LGBTQIA+ community.",
-    type: "PDF Guide",
-    icon: FileText,
+    title: "Summer 2025",
+    url: "https://drive.google.com/file/d/1DPRJZ8tIOzb0NetZwTFhV8RarVisIlWp/preview",
+    seasonIcon: Sun,
+    image: "/prideguides/summer_2025.jpg",
   },
   {
-    title: "Coming Out Resource Guide",
-    description: "Support and guidance for individuals considering coming out.",
-    type: "PDF Guide",
-    icon: FileText,
-  },
-  {
-    title: "Inclusive Language Guide",
-    description: "Best practices for using inclusive and affirming language.",
-    type: "PDF Guide",
-    icon: FileText,
+    title: "Summer 2024",
+    url: "https://drive.google.com/file/d/1jPgpAJnRKT9AXzlplGcqtSmUwTqOK7n4/preview",
+    seasonIcon: Sun,
+    image: "/prideguides/summer_2024.jpg",
   },
 ];
 
@@ -110,78 +104,43 @@ export default function Resources() {
         </div>
       </section>
 
-      {/* Educational Resources */}
+      {/* Pride Guides */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Educational Materials
+              Pride Guides
             </h2>
             <p className="text-muted-foreground">
-              Downloadable guides and resources for learning and growth.
+              Our seasonal newsletters keeping the community informed and
+              connected.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {educationalResources.map((resource) => (
-              <div
-                key={resource.title}
-                className="card-pride bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
-              >
-                <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <resource.icon className="h-7 w-7 text-accent" />
-                </div>
-                <h3 className="font-bold text-foreground mb-1">
-                  {resource.title}
-                </h3>
-                <p className="text-xs text-accent font-medium mb-2">
-                  {resource.type}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {resource.description}
-                </p>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-sm text-muted-foreground mt-8">
-            * PDF downloads will be available soon. Contact us for more
-            information.
-          </p>
-        </div>
-      </section>
-
-      {/* Support Organizations */}
-      <section className="py-20 bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Support Organizations
-            </h2>
-            <p className="text-muted-foreground">
-              National and local organizations providing ongoing support and
-              advocacy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {supportOrganizations.map((org) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {prideGuides.map((guide) => (
               <a
-                key={org.name}
-                href={org.url}
+                key={guide.title}
+                href={guide.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="card-pride bg-background p-6 flex items-start gap-4 hover:shadow-lg transition-all hover:-translate-y-1 group"
+                className="card-pride relative overflow-hidden bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
               >
-                <div className="h-12 w-12 rounded-lg bg-pride-soft flex items-center justify-center flex-shrink-0">
-                  <org.icon className="h-6 w-6 text-accent" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                    {org.name}
-                    <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity"
+                  style={{ backgroundImage: `url(${guide.image})` }}
+                />
+                <div className="relative z-10">
+                  <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <FileText className="h-7 w-7 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-foreground mb-1 flex items-center gap-2">
+                    {guide.title}
+                    <guide.seasonIcon className="h-5 w-5 text-accent" />
                   </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {org.description}
+                  <p className="text-xs text-accent font-medium flex items-center gap-1">
+                    View Guide
+                    <ExternalLink className="h-3 w-3" />
                   </p>
                 </div>
               </a>
@@ -191,7 +150,7 @@ export default function Resources() {
       </section>
 
       {/* Crisis Support */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-3 mb-8">
             <div className="h-12 w-12 rounded-full bg-destructive/10 flex items-center justify-center">
@@ -202,7 +161,7 @@ export default function Resources() {
                 Crisis Support
               </h2>
               <p className="text-muted-foreground">
-                Immediate help when you need it most.
+                You&apos;re not alone. Immediate help when you need it most.
               </p>
             </div>
           </div>
@@ -236,6 +195,46 @@ export default function Resources() {
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Support Organizations */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Support Organizations
+            </h2>
+            <p className="text-muted-foreground">
+              National and local organizations providing ongoing support and
+              advocacy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {supportOrganizations.map((org) => (
+              <a
+                key={org.name}
+                href={org.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-pride bg-background p-6 flex items-start gap-4 hover:shadow-lg transition-all hover:-translate-y-1 group"
+              >
+                <div className="h-12 w-12 rounded-lg bg-pride-soft flex items-center justify-center flex-shrink-0">
+                  <org.icon className="h-6 w-6 text-accent" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                    {org.name}
+                    <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {org.description}
+                  </p>
+                </div>
+              </a>
             ))}
           </div>
         </div>

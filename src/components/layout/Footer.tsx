@@ -8,7 +8,8 @@ import {
   MapPin,
   Facebook,
   Instagram,
-  Twitter,
+  Linkedin,
+  Github,
 } from "lucide-react";
 import cazpride from "@/assets/cazpride.png";
 
@@ -17,15 +18,18 @@ const quickLinks = [
   { name: "About", path: "/about" },
   { name: "Resources", path: "/resources" },
   { name: "Events", path: "/events" },
-  { name: "Gallery", path: "/gallery" },
+  // { name: "Gallery", path: "/gallery" },
   { name: "Donate", path: "/donate" },
   { name: "Contact", path: "/contact" },
 ];
 
 const socialLinks = [
   { icon: Facebook, href: "#", label: "Facebook" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Twitter, href: "#", label: "Twitter" },
+  {
+    icon: Instagram,
+    href: "https://www.instagram.com/cazenoviapride",
+    label: "Instagram",
+  },
 ];
 
 export function Footer() {
@@ -42,9 +46,9 @@ export function Footer() {
               <Image
                 src={cazpride}
                 alt="Caz Pride Logo"
-                width={56}
-                height={56}
-                className="rounded-full shadow-md"
+                width={64}
+                height={64}
+                className="rounded-full"
               />
               <div>
                 <span className="font-bold text-lg text-foreground block">
@@ -124,6 +128,55 @@ export function Footer() {
               <Heart className="h-4 w-4" />
               Support Our Mission
             </Link>
+            <div className="mt-6">
+              <p className="text-sm font-medium text-foreground mb-2">
+                Website Created By:
+              </p>
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>Jack Willis</span>
+                  <a
+                    href="https://www.linkedin.com/in/jack-willis-3b0b18127/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jack Willis LinkedIn"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://github.com/jackwillis517"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Jack Willis GitHub"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>Nolan Willis</span>
+                  <a
+                    href="https://www.linkedin.com/in/nolan-willis/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Nolan Willis LinkedIn"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://github.com/nolanwillis"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Nolan Willis GitHub"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    <Github className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

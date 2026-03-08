@@ -1,25 +1,14 @@
-"use client";
-
-import { useState } from "react";
-import { Heart, Shield } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-const donationAmounts = [10, 25, 50, 100];
+import Script from "next/script";
+import { Heart, BookOpen } from "lucide-react";
+// import { Button } from "@/components/ui/button";
 
 export default function Donate() {
-  const [donationType, setDonationType] = useState<"monthly" | "one-time">(
-    "monthly",
-  );
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(25);
-  const [customAmount, setCustomAmount] = useState("");
-
-  const currentAmount = customAmount
-    ? parseFloat(customAmount)
-    : selectedAmount;
-
   return (
     <>
+      <Script
+        src="https://widgets.givebutter.com/latest.umd.cjs?acct=MiJWqLiDzIXShX3C&p=other"
+        strategy="afterInteractive"
+      />
       {/* Hero */}
       <section className="py-20 bg-pride-soft">
         <div className="container mx-auto px-4">
@@ -35,127 +24,60 @@ export default function Donate() {
               Every Month
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Monthly donations help us plan responsibly, respond when needs
-              arise, and keep showing up with consistency and care. Even a small
-              monthly gift creates stability that allows us to grow programs,
-              support volunteers, and serve our community.
+              Donations help us plan responsibly, respond when needs arise, and
+              keep showing up with consistency and care. Even a small monthly
+              gift creates stability that allows us to grow programs, support
+              volunteers, and serve our community. You can also support us by
+              purchasing books from our curated LGBTQ+ bookshelf.
             </p>
           </div>
         </div>
-      </section>
 
-      {/* Donation Form */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <div className="card-pride bg-background p-8">
-              {/* Donation Type Toggle */}
-              <div className="flex gap-2 mb-8">
-                <Button
-                  variant={donationType === "monthly" ? "rainbow" : "outline"}
-                  className="flex-1"
-                  onClick={() => setDonationType("monthly")}
-                >
-                  Monthly
-                </Button>
-                <Button
-                  variant={donationType === "one-time" ? "rainbow" : "outline"}
-                  className="flex-1"
-                  onClick={() => setDonationType("one-time")}
-                >
-                  One-Time
-                </Button>
-              </div>
-
-              {/* Amount Selection */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-foreground mb-3">
-                  Select Amount
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                  {donationAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => {
-                        setSelectedAmount(amount);
-                        setCustomAmount("");
-                      }}
-                      className={`py-4 px-6 rounded-lg font-bold text-lg transition-all ${
-                        selectedAmount === amount && !customAmount
-                          ? "bg-rainbow text-primary-foreground shadow-pride"
-                          : "bg-secondary text-foreground hover:bg-secondary/80"
-                      }`}
-                    >
-                      ${amount}
-                    </button>
-                  ))}
-                </div>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
-                    $
-                  </span>
-                  <Input
-                    type="number"
-                    placeholder="Custom amount"
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setSelectedAmount(null);
-                    }}
-                    className="pl-8 h-14 text-lg"
-                  />
-                </div>
-              </div>
-
-              {/* Summary */}
-              {currentAmount && currentAmount > 0 && (
-                <div className="bg-pride-soft rounded-lg p-4 mb-8">
-                  <div className="flex justify-between items-center">
-                    <span className="text-foreground font-medium">
-                      Your {donationType} donation
-                    </span>
-                    <span className="text-2xl font-bold text-foreground">
-                      ${currentAmount.toFixed(2)}
-                      {donationType === "monthly" && (
-                        <span className="text-sm font-normal text-muted-foreground">
-                          /month
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Donate Button */}
-              <Button variant="rainbow" size="lg" className="w-full mb-6">
-                <Heart className="h-5 w-5 mr-2" />
-                {donationType === "monthly"
-                  ? "Start Monthly Donation"
-                  : "Donate Now"}
-              </Button>
-
-              {/* Security Note */}
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <Shield className="h-4 w-4" />
-                <span>Secure payment processing</span>
-              </div>
+        {/* Givebutter Donation Widget & Bookshop */}
+        <div className="container mx-auto px-4 pt-12 pb-16">
+          <div className="flex flex-col md:flex-row justify-center gap-0 items-stretch">
+            <div className="w-full md:w-[420px] shrink-0">
+              {/* @ts-expect-error Givebutter custom element */}
+              <givebutter-widget id="gJ926L" align="center"></givebutter-widget>
             </div>
-
-            {/* Monthly Benefits */}
-            {donationType === "monthly" && (
-              <div className="mt-8 p-6 bg-secondary rounded-xl">
-                <p className="text-sm text-muted-foreground text-center">
-                  Monthly donations can be changed or canceled at any time.
-                  You&apos;ll receive a receipt for each donation for tax purposes.
+            {/* OR divider */}
+            <div className="flex md:flex-col items-center gap-3 py-4 md:py-0 md:px-6">
+              <div className="flex-1 w-full md:w-px h-px md:h-full bg-rainbow" />
+              <span className="text-sm font-bold text-muted-foreground shrink-0">
+                OR
+              </span>
+              <div className="flex-1 w-full md:w-px h-px md:h-full bg-rainbow" />
+            </div>
+            <div className="w-full md:w-[420px] shrink-0 bg-gray-50 p-8 rounded-xl border-gray-200 border-2 flex flex-col">
+              <div>
+                <div className="inline-flex items-center justify-center h-14 w-14 rounded-xl bg-pride-soft mb-6">
+                  <BookOpen className="h-7 w-7 text-accent" />
+                </div>
+                <h2 className="text-2xl font-bold text-foreground mb-3">
+                  Shop Our Bookshelf
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  Browse our curated collection of LGBTQ+ titles on
+                  Bookshop.org. Your purchase supports both Cazenovia Pride and
+                  independent bookstores.
                 </p>
               </div>
-            )}
+              <a
+                href="https://bookshop.org/shop/cazpride"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-full mt-8 md:mt-25 h-13 rounded-lg bg-[#E01F80] hover:bg-[#c91b72] text-white font-semibold transition-colors"
+              >
+                <BookOpen className="h-5 w-5 mr-2" />
+                Visit Our Bookshop
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Impact Section */}
-      <section className="py-16 bg-secondary">
+      {/*<section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
@@ -189,35 +111,37 @@ export default function Donate() {
             </div>
           </div>
         </div>
-      </section>
+      </section>*/}
 
       {/* Emotional Appeal */}
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-rainbow">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-pride-soft mb-6">
-              <Heart className="h-8 w-8 text-accent" />
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary-foreground/10 mb-6">
+              <Heart className="h-8 w-8 text-primary-foreground" />
             </div>
-            <p className="text-lg text-muted-foreground mb-4 italic">
-              &quot;If Caz Pride has helped you feel seen, supported, or hopeful, a
-              monthly gift is a powerful way to help pass that forward.&quot;
+            <p className="text-lg text-primary-foreground/90 mb-4 italic">
+              &quot;If Caz Pride has helped you feel seen, supported, or
+              hopeful, a monthly gift is a powerful way to help pass that
+              forward.&quot;
             </p>
-            <p className="text-foreground font-medium">
-              There&apos;s no &quot;right&quot; amount. Just a shared commitment to showing up
-              — together.
+            <p className="text-primary-foreground font-medium">
+              There&apos;s no &quot;right&quot; amount. Just a shared commitment
+              to showing up — together.
             </p>
           </div>
         </div>
       </section>
 
       {/* Other Ways */}
-      <section className="py-16 bg-rainbow">
+      {/*<section className="py-16 bg-rainbow">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-primary-foreground mb-4">
             Other Ways to Help
           </h2>
           <p className="text-primary-foreground/90 mb-6 max-w-xl mx-auto">
-            Can&apos;t donate right now? There are other ways to support our mission.
+            Can&apos;t donate right now? There are other ways to support our
+            mission.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button variant="secondary" size="lg">
@@ -232,7 +156,7 @@ export default function Donate() {
             </Button>
           </div>
         </div>
-      </section>
+      </section>*/}
     </>
   );
 }

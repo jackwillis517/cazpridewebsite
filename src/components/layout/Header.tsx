@@ -7,15 +7,17 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Heart, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import cazprideLogo from "@/assets/cazpride.png";
-import { Event, formatGoogleEvent, EventCache } from "@/lib/event-utils";
+import { Event, formatGoogleEvent } from "@/lib/event-utils";
+// EventCache
 
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Resources", path: "/resources" },
   { name: "Events", path: "/events" },
-  { name: "Gallery", path: "/gallery" },
+  // { name: "Gallery", path: "/gallery" },
   { name: "Contact", path: "/contact" },
+  { name: "cazpridefest", path: "/cazpridefest" },
 ];
 
 export function Header() {
@@ -95,8 +97,16 @@ export function Header() {
     <>
       {/* Event Banner */}
       {nextEvent && !bannerDismissed && (
-        <div ref={bannerRef} className="fixed top-0 left-0 right-0 z-50 bg-accent text-accent-foreground">
-          <Link href="/events" className="container mx-auto px-4 py-3 flex items-center justify-center gap-2 text-center pr-10 sm:pr-12 block hover:bg-accent/80 transition-colors">
+        <div
+          ref={bannerRef}
+          className="fixed top-0 left-0 right-0 z-50 bg-accent text-accent-foreground"
+        >
+          <Link
+            href={nextEvent.link || "/events"}
+            target={nextEvent.link ? "_blank" : undefined}
+            rel={nextEvent.link ? "noopener noreferrer" : undefined}
+            className="container mx-auto px-4 py-3 flex items-center justify-center gap-2 text-center pr-10 sm:pr-12 block hover:bg-accent/80 transition-colors"
+          >
             <p className="text-sm md:text-lg font-medium">
               Save the Date!{" "}
               <span className="font-bold">{nextEvent.title}</span> is coming{" "}
@@ -143,13 +153,27 @@ export function Header() {
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-lg text-sm transition-all duration-200 ${
+                    link.path === "/cazpridefest"
+                      ? "font-semibold"
+                      : "font-medium"
+                  } ${
                     pathname === link.path
                       ? "bg-secondary text-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                   }`}
                 >
-                  {link.name}
+                  {link.name === "cazpridefest" ? (
+                    <>
+                      Caz Pride Fest
+                      <span className="hidden min-[1300px]:inline">
+                        {" '"}
+                        {new Date().getFullYear().toString().slice(-2)}
+                      </span>
+                    </>
+                  ) : (
+                    link.name
+                  )}
                 </Link>
               ))}
             </div>
@@ -194,7 +218,9 @@ export function Header() {
                         : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                     }`}
                   >
-                    {link.name}
+                    {link.name === "cazpridefest"
+                      ? `Caz Pride Fest '${new Date().getFullYear().toString().slice(-2)}`
+                      : link.name}
                   </Link>
                 ))}
                 <div className="pt-4 border-t border-border mt-2">
