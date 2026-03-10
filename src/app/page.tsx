@@ -26,13 +26,13 @@ import { Event, formatGoogleEvent } from "@/lib/event-utils";
 //   { number: "12", label: "Partner Organizations", icon: Heart },
 // ];
 
-const galleryPlaceholders = [
-  { color: "bg-pink-200", alt: "Volunteers setting up for community event" },
-  { color: "bg-purple-200", alt: "Pride parade in downtown Cazenovia" },
-  { color: "bg-blue-200", alt: "Community potluck dinner" },
-  { color: "bg-yellow-200", alt: "Youth art workshop" },
-  { color: "bg-green-200", alt: "Fundraiser event" },
-  { color: "bg-red-200", alt: "Candlelight vigil" },
+const galleryImages = [
+  { src: "/images/cp0.jpg", alt: "Caz Pride community photo" },
+  { src: "/images/cp1.jpg", alt: "Caz Pride community photo" },
+  { src: "/images/cp2.jpg", alt: "Caz Pride community photo" },
+  { src: "/images/cp3.jpg", alt: "Caz Pride community photo" },
+  { src: "/images/cp4.jpg", alt: "Caz Pride community photo" },
+  { src: "/images/cp5.jpg", alt: "Caz Pride community photo" },
 ];
 
 export default function Home() {
@@ -388,23 +388,19 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryPlaceholders.map((image, index) => (
-              // <Link
-              //   key={index}
-              //   href="/gallery"
-              //   className="aspect-[4/3] overflow-hidden rounded-xl group relative"
-              // >
+            {galleryImages.map((image, index) => (
               <div
                 key={index}
                 className="aspect-[4/3] overflow-hidden rounded-xl relative"
               >
-                <div
-                  className={`w-full h-full ${image.color}`}
-                  // className={`w-full h-full ${image.color} transition-transform duration-500 group-hover:scale-110`}
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 33vw"
                 />
-                {/* <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
               </div>
-              // </Link>
             ))}
           </div>
         </div>

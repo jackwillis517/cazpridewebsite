@@ -109,8 +109,15 @@ export default function Contact() {
       </section>
 
       {/* Contact Form */}
-      <section className="py-16 bg-secondary">
-        <div className="container mx-auto px-4">
+      <section
+        className="py-16 bg-cover bg-center bg-no-repeat relative"
+        style={{
+          backgroundImage: "url('/images/hgrey.jpg')",
+          backgroundPositionY: "-40px",
+        }}
+      >
+        <div className="absolute inset-0 bg-background/85" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8 text-center">
               Send Us a Message
