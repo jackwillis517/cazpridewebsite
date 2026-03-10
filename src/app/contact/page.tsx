@@ -110,9 +110,8 @@ export default function Contact() {
 
       {/* Contact Form */}
       <section
-        className="py-16 bg-cover bg-center bg-no-repeat relative"
+        className="py-16 bg-cover bg-center bg-no-repeat relative bg-none md:bg-[url('/images/hgrey.jpg')]"
         style={{
-          backgroundImage: "url('/images/hgrey.jpg')",
           backgroundPositionY: "-40px",
         }}
       >
