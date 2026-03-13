@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
 
 const cards = [
   {
@@ -10,7 +13,7 @@ const cards = [
       "Interested in setting up a booth at Pride Fest? Apply to be a vendor and share your products, services, or organization with our community.",
     image: "/pridefest/vendor.jpg",
     linkText: "Apply as a Vendor",
-    href: "#",
+    href: process.env.NEXT_PUBLIC_VENDOR_FORM_URL || "#",
   },
   {
     title: "Volunteer Sign-Up",
@@ -18,7 +21,7 @@ const cards = [
       "Help make Pride Fest a success! Volunteers are the heart of our event, whether it's setup, being a parage wrangler, or lending a hand where needed.",
     image: "/pridefest/volunteer.jpg",
     linkText: "Sign Up to Volunteer",
-    href: "https://docs.google.com/forms/d/e/1FAIpQLSepoS-njIfNSJrNfuQ_HjdYxOyxboQVHQDiQgF2Fsw2KCcO1Q/viewform",
+    href: process.env.NEXT_PUBLIC_VOLUNTEER_FORM_URL || "#",
   },
   {
     title: "2026 Scholarship",
@@ -26,7 +29,7 @@ const cards = [
       "A $500 scholarship open to graduating CHS seniors who identify as LGBTQIA+ and/or are supportive allies. CHS seniors only. Deadline: April 15, 2026.",
     image: "/pridefest/scholarship.jpg",
     linkText: "Apply Now",
-    href: "#",
+    href: process.env.NEXT_PUBLIC_SCHOLARSHIP_FORM_URL || "#",
   },
 ];
 
@@ -82,36 +85,72 @@ export default function CazPrideFest() {
             Get Involved
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {cards.map((card) => (
-              <a
-                key={card.title}
-                href={card.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group card-pride bg-background overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
-              >
-                <div className="aspect-[4/3] relative overflow-hidden">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+            {cards.map((card) => {
+              if (card.title === "2026 Scholarship") {
+                return (
+                  <ScholarshipModal
+                    key={card.title}
+                    trigger={(open) => (
+                      <button
+                        onClick={open}
+                        className="group card-pride bg-background overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 text-left"
+                      >
+                        <div className="aspect-[4/3] relative overflow-hidden">
+                          <Image
+                            src={card.image}
+                            alt={card.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-bold text-foreground mb-2">
+                            {card.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            {card.description}
+                          </p>
+                          <span className="inline-flex items-center gap-1 text-accent font-medium text-sm group-hover:gap-2 transition-all">
+                            Learn More
+                            <ArrowRight className="h-4 w-4" />
+                          </span>
+                        </div>
+                      </button>
+                    )}
                   />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    {card.description}
-                  </p>
-                  <span className="inline-flex items-center gap-1 text-accent font-medium text-sm group-hover:gap-2 transition-all">
-                    {card.linkText}
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </a>
-            ))}
+                );
+              }
+              return (
+                <a
+                  key={card.title}
+                  href={card.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group card-pride bg-background overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+                >
+                  <div className="aspect-[4/3] relative overflow-hidden">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-foreground mb-2">
+                      {card.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {card.description}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-accent font-medium text-sm group-hover:gap-2 transition-all">
+                      {card.linkText}
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>

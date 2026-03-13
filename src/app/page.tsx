@@ -16,6 +16,7 @@ import {
   GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
 import cazpride from "@/assets/cazpride.png";
 // import { EventCache } from "@/lib/event-utils";
 import { Event, formatGoogleEvent } from "@/lib/event-utils";
@@ -270,7 +271,7 @@ export default function Home() {
       </section>
 
       {/* Scholarship */}
-      <section className="py-16 bg-background">
+      {process.env.NEXT_PUBLIC_SHOW_SCHOLARSHIP === "true" && <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
             <div className="w-full md:w-1/2">
@@ -306,16 +307,23 @@ export default function Home() {
                   April 15, 2026
                 </span>
               </p>
-              <Button asChild variant="rainbow" size="lg">
-                <Link href="/cazpridefest" className="flex items-center gap-2">
-                  Apply
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
+              <ScholarshipModal
+                trigger={(open) => (
+                  <Button
+                    variant="rainbow"
+                    size="lg"
+                    onClick={open}
+                    className="flex items-center gap-2"
+                  >
+                    Learn More
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                )}
+              />
             </div>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Monthly Donation CTA */}
       <section className="py-16 bg-secondary">

@@ -44,9 +44,14 @@ export async function POST(request: NextRequest) {
   // Build FormData with Google Form entry IDs
   // These IDs are for the Google Form used for the contact form
   const formData = new FormData();
-  formData.append("entry.714757105", name.trim());
-  formData.append("entry.1098887063", email.trim());
-  formData.append("entry.1859430256", message.trim());
+  // Test form ids
+  // formData.append("entry.714757105", name.trim());
+  // formData.append("entry.1098887063", email.trim());
+  // formData.append("entry.1859430256", message.trim());
+
+  formData.append(process.env.GOOGLE_FORM_NAME_ID!, name.trim());
+  formData.append(process.env.GOOGLE_FORM_EMAIL_ID!, email.trim());
+  formData.append(process.env.GOOGLE_FORM_MESSAGE_ID!, message.trim());
 
   const googleFormUrl = process.env.GOOGLE_FORM_URL;
   if (!googleFormUrl) {
