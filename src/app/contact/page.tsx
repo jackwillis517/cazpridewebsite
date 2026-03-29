@@ -72,10 +72,10 @@ export default function Contact() {
               </div>
               <h3 className="text-lg font-bold text-foreground mb-2">Email</h3>
               <a
-                href="mailto:cazenoviapride@gmail.com"
+                href="mailto:info@cazpride.org"
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                cazenoviapride@gmail.com
+                info@cazpride.org
               </a>
             </div>
 
@@ -84,7 +84,7 @@ export default function Contact() {
                 <MapPin className="h-7 w-7 text-accent" />
               </div>
               <h3 className="text-lg font-bold text-foreground mb-2">
-                Address
+                Mailing Address
               </h3>
               <p className="text-sm text-muted-foreground">
                 53 Albany Street
@@ -109,12 +109,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Form */}
-      <section
-        className="py-16 bg-cover bg-center bg-no-repeat relative bg-none md:bg-[url('/images/hgrey.jpg')]"
-        style={{
-          backgroundPositionY: "-40px",
-        }}
-      >
+      <section className="py-16 bg-cover bg-center bg-no-repeat relative bg-none">
         <div className="absolute inset-0 bg-background/85" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl mx-auto">
@@ -204,32 +199,6 @@ export default function Contact() {
                   </Button>
                 </form>
               )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map */}
-      <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2 text-center">
-              Find Us
-            </h2>
-            <p className="text-muted-foreground text-center mb-8">
-              53 Albany Street, Cazenovia, NY
-            </p>
-            <div className="rounded-xl overflow-hidden shadow-md">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2945.1!2d-75.8527!3d42.9301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d9836e1c8b1a1d%3A0x0!2s53+Albany+St%2C+Cazenovia%2C+NY+13035!5e0!3m2!1sen!2sus!4v1"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Cazenovia Pride Location"
-              />
             </div>
           </div>
         </div>

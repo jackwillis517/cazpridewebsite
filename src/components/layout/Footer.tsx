@@ -11,7 +11,6 @@ import {
   Linkedin,
   Github,
 } from "lucide-react";
-import cazpride from "@/assets/cazpride.png";
 
 const quickLinks = [
   { name: "Home", path: "/" },
@@ -44,7 +43,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src={cazpride}
+                src="/favicon.png"
                 alt="Caz Pride Logo"
                 width={64}
                 height={64}
@@ -87,10 +86,10 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Mail className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                 <a
-                  href="mailto:cazenoviapride@gmail.com"
+                  href="mailto:info@cazpride.org"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  cazenoviapride@gmail.com
+                  info@cazpride.org
                 </a>
               </li>
               <li className="flex items-start gap-3">

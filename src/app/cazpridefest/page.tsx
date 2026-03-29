@@ -5,31 +5,32 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
+import { config } from "@/lib/config";
 
 const cards = [
   {
     title: "Vendor Application",
     description:
       "Interested in setting up a booth at Pride Fest? Apply to be a vendor and share your products, services, or organization with our community.",
-    image: "/pridefest/vendor.jpg",
+    image: `${config.prideFest.imgs.vendor}`,
     linkText: "Apply as a Vendor",
-    href: process.env.NEXT_PUBLIC_VENDOR_FORM_URL || "#",
+    href: `${config.prideFest.formURLs.vendorFormURL}` || "#",
   },
   {
     title: "Volunteer Sign-Up",
     description:
       "Help make Pride Fest a success! Volunteers are the heart of our event, whether it's setup, being a parage wrangler, or lending a hand where needed.",
-    image: "/pridefest/volunteer.jpg",
+    image: `${config.prideFest.imgs.volunteer}`,
     linkText: "Sign Up to Volunteer",
-    href: process.env.NEXT_PUBLIC_VOLUNTEER_FORM_URL || "#",
+    href: `${config.prideFest.formURLs.volunteerFormURL}` || "#",
   },
   {
     title: "2026 Scholarship",
     description:
       "A $500 scholarship open to graduating CHS seniors who identify as LGBTQIA+ and/or are supportive allies. CHS seniors only. Deadline: April 15, 2026.",
-    image: "/pridefest/scholarship.jpg",
+    image: `${config.scholarship.img}`,
     linkText: "Apply Now",
-    href: process.env.NEXT_PUBLIC_SCHOLARSHIP_FORM_URL || "#",
+    href: `${config.scholarship.formURL}` || "#",
   },
 ];
 
@@ -41,7 +42,7 @@ export default function CazPrideFest() {
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="max-w-4xl mx-auto">
             <Image
-              src="/pridefest/2026.jpg"
+              src={config.prideFest.imgs.hero}
               alt="Caz Pride Fest 2026 - Together in Full Color"
               width={900}
               height={600}
@@ -84,9 +85,10 @@ export default function CazPrideFest() {
           <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
             Get Involved
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className={`grid grid-cols-1 ${config.scholarship.enabled ? "md:grid-cols-3 max-w-5xl" : "md:grid-cols-2 max-w-3xl"} gap-8 mx-auto`}>
             {cards.map((card) => {
               if (card.title === "2026 Scholarship") {
+                if (!config.scholarship.enabled) return null;
                 return (
                   <ScholarshipModal
                     key={card.title}

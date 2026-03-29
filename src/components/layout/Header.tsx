@@ -6,7 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Heart, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import cazprideLogo from "@/assets/cazpride.png";
 import { Event, formatGoogleEvent } from "@/lib/event-utils";
 // EventCache
 
@@ -77,7 +76,6 @@ export function Header() {
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
-        console.error(err);
       }
     };
 
@@ -136,7 +134,7 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <Image
-                src={cazprideLogo}
+                src="/favicon.png"
                 alt="Caz Pride Logo"
                 width={64}
                 height={64}

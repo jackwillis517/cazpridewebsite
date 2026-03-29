@@ -8,33 +8,15 @@ import {
   MapPin,
   ArrowRight,
   Heart,
-  // Users,
-  // Sparkles,
-  // Camera,
   X,
   Clock,
   GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
-import cazpride from "@/assets/cazpride.png";
 // import { EventCache } from "@/lib/event-utils";
 import { Event, formatGoogleEvent } from "@/lib/event-utils";
-
-// const impactStats = [
-//   { number: "500+", label: "Community Members", icon: Users },
-//   { number: "25+", label: "Events Hosted", icon: Sparkles },
-//   { number: "12", label: "Partner Organizations", icon: Heart },
-// ];
-
-const galleryImages = [
-  { src: "/images/cp0.jpg", alt: "Caz Pride community photo" },
-  { src: "/images/cp1.jpg", alt: "Caz Pride community photo" },
-  { src: "/images/cp2.jpg", alt: "Caz Pride community photo" },
-  { src: "/images/cp3.jpg", alt: "Caz Pride community photo" },
-  { src: "/images/cp4.jpg", alt: "Caz Pride community photo" },
-  { src: "/images/cp5.jpg", alt: "Caz Pride community photo" },
-];
+import { config } from "@/lib/config";
 
 export default function Home() {
   const CALENDAR_API_KEY =
@@ -69,8 +51,6 @@ export default function Home() {
           { signal: controller.signal },
         );
 
-        console.log(response);
-
         if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();
@@ -79,7 +59,6 @@ export default function Home() {
         // EventCache.set(cacheKey, formatted);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
-        console.error(err);
         setError(true);
       } finally {
         setLoading(false);
@@ -96,13 +75,14 @@ export default function Home() {
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage: "url(/hero.jpg)",
-              backgroundSize: "120%",
-              backgroundPosition: "58% 70%",
-            }}
+          <Image
+            src={config.hero}
+            alt="Caz Pride hero"
+            width={1920}
+            height={1080}
+            className="absolute object-cover h-full hero-bg"
+            style={{ width: "150%", scale: "1.2" }}
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/70 to-background" />
         </div>
@@ -112,7 +92,7 @@ export default function Home() {
             {/* Logo */}
             <div className="mb-8 animate-fade-in">
               <Image
-                src={cazpride}
+                src="/favicon.png"
                 alt="Caz Pride Logo"
                 width={200}
                 height={200}
@@ -122,26 +102,15 @@ export default function Home() {
 
             {/* Headline */}
             <h1
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in-up"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 animate-fade-in-up"
               style={{ animationDelay: "0.1s" }}
             >
               Welcome to <span className="text-rainbow">Cazenovia Pride</span>
             </h1>
 
-            {/* Mission Statement */}
-            <p
-              className="text-lg md:text-xl text-foreground max-w-3xl mx-auto mb-8 animate-fade-in-up leading-relaxed"
-              style={{ animationDelay: "0.2s" }}
-            >
-              The purpose of Cazenovia Pride is to celebrate, support, and
-              advance the well-being, visibility, and inclusion of LGBTQIA+
-              community in Cazenovia and beyond through education, events,
-              resource-sharing, and advocacy.
-            </p>
-
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up pb-6 sm:pb-8 xl:pb-0"
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-6 animate-fade-in-up"
               style={{ animationDelay: "0.3s" }}
             >
               <Button
@@ -170,6 +139,17 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
+
+            {/* Mission Statement */}
+            <p
+              className="text-xl md:text-xl text-black max-w-3xl mx-auto mb-6 animate-fade-in-up leading-relaxed"
+              style={{ animationDelay: "0.2s" }}
+            >
+              The purpose of Cazenovia Pride is to celebrate, support, and
+              advance the well-being, visibility, and inclusion of LGBTQIA+
+              community in Cazenovia and beyond through education, events,
+              resource-sharing, and advocacy.
+            </p>
           </div>
         </div>
       </section>
@@ -271,70 +251,80 @@ export default function Home() {
       </section>
 
       {/* Scholarship */}
-      {process.env.NEXT_PUBLIC_SHOW_SCHOLARSHIP === "true" && <section className="py-16 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
-            <div className="w-full md:w-1/2">
-              <Image
-                src="/pridefest/scholarship.jpg"
-                alt="2026 Caz Pride Scholarship"
-                width={600}
-                height={600}
-                className="w-full h-auto rounded-xl"
-              />
-            </div>
-            <div className="w-full md:w-1/2 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full shadow-sm mb-4">
-                <GraduationCap className="h-4 w-4 text-accent" />
-                <span className="text-sm font-medium text-foreground">
-                  Now Accepting Applications
-                </span>
+      {config.scholarship.enabled === true && (
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+              <div className="w-full md:w-1/2">
+                <Image
+                  src={config.scholarship.img}
+                  alt="2026 Caz Pride Scholarship"
+                  width={600}
+                  height={600}
+                  className="w-full h-auto rounded-xl"
+                />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                2026 Caz Pride Scholarship
-              </h2>
-              <p className="text-muted-foreground mb-3">
-                A{" "}
-                <span className="font-semibold text-foreground">
-                  $500 scholarship
-                </span>{" "}
-                open to graduating Cazenovia High School seniors who identify as
-                LGBTQIA+ and/or are supportive allies.
-              </p>
-              <p className="text-sm text-muted-foreground mb-6">
-                Deadline:{" "}
-                <span className="font-medium text-foreground">
-                  April 15, 2026
-                </span>
-              </p>
-              <ScholarshipModal
-                trigger={(open) => (
-                  <Button
-                    variant="rainbow"
-                    size="lg"
-                    onClick={open}
-                    className="flex items-center gap-2"
-                  >
-                    Learn More
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                )}
-              />
+              <div className="w-full md:w-1/2 text-center md:text-left">
+                <a
+                  href={config.scholarship.formURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full shadow-sm mb-4 hover:bg-secondary/80 transition-colors"
+                >
+                  <GraduationCap className="h-4 w-4 text-accent" />
+                  <span className="text-sm font-medium text-foreground">
+                    Now Accepting Applications
+                  </span>
+                </a>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  2026 Caz Pride Scholarship
+                </h2>
+                <p className="text-muted-foreground mb-3">
+                  A{" "}
+                  <span className="font-semibold text-foreground">
+                    $500 scholarship
+                  </span>{" "}
+                  open to graduating Cazenovia High School seniors who identify
+                  as LGBTQIA+ and/or are supportive allies.
+                </p>
+                <p className="text-sm text-muted-foreground mb-6">
+                  Deadline:{" "}
+                  <span className="font-medium text-foreground">
+                    April 15, 2026
+                  </span>
+                </p>
+                <ScholarshipModal
+                  trigger={(open) => (
+                    <Button
+                      variant="rainbow"
+                      size="lg"
+                      onClick={open}
+                      className="inline-flex items-center gap-2"
+                    >
+                      Learn More
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  )}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>}
+        </section>
+      )}
 
       {/* Monthly Donation CTA */}
       <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-background rounded-full shadow-sm mb-6">
+            <Link
+              href="/donate"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-background rounded-full shadow-sm mb-6 hover:bg-background/80 transition-colors"
+            >
               <Heart className="h-4 w-4 text-accent" />
               <span className="text-sm font-medium text-foreground">
                 Become a Monthly Supporter
               </span>
-            </div>
+            </Link>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Help Caz Pride Show Up — Every Month
             </h2>
@@ -344,7 +334,7 @@ export default function Home() {
               monthly gift creates stability.
             </p>
             <Button asChild variant="rainbow" size="lg">
-              <Link href="/donate" className="flex items-center gap-2">
+              <Link href="/donate" className="inline-flex items-center gap-2">
                 Donate Monthly
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -352,28 +342,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Impact Stats */}
-      {/*<section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {impactStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="card-pride p-8 text-center hover:shadow-lg transition-shadow"
-              >
-                <stat.icon className="h-10 w-10 mx-auto mb-4 text-accent" />
-                <div className="text-4xl font-bold text-rainbow mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-muted-foreground font-medium">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>*/}
 
       {/* Photo Gallery Preview */}
       <section className="py-20 bg-background">
@@ -396,14 +364,14 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.map((image, index) => (
+            {config.gallery.map((image, index) => (
               <div
                 key={index}
                 className="aspect-[4/3] overflow-hidden rounded-xl relative"
               >
                 <Image
-                  src={image.src}
-                  alt={image.alt}
+                  src={image}
+                  alt={`Caz Pride community photo ${index + 1}`}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 50vw, 33vw"

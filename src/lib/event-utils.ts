@@ -56,7 +56,6 @@ export const EventCache = {
         date: new Date(event.date),
       }));
     } catch (e) {
-      console.error("Cache parsing error", e);
       return null;
     }
   },

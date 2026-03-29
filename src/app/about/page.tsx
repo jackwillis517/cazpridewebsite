@@ -1,92 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, Users, Target, Shield, Award } from "lucide-react";
+import { Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const boardMembers: {
-  name: string;
-  pronouns?: string;
-  role: string;
-  bio: string;
-  color: string;
-  photo?: string;
-}[] = [
-  {
-    name: "Danielle Synborski",
-    pronouns: "She/Her",
-    role: "President",
-    bio: "Rooted in the belief that we are all part of one human family, Danielle is committed to building bridges across differences and fostering a community grounded in love, understanding, and belonging. A devoted wife and mom, she finds her greatest growth when stepping outside her comfort zone to stand up for equity and create new connections.",
-    color: "bg-pink-200",
-    photo: "/headshots/Danielle.jpg",
-  },
-  {
-    name: "Meg Tobin",
-    pronouns: "She/Her",
-    role: "Vice President",
-    bio: "Meg is a somatic psychotherapist and retreat leader passionate about creating safe, inclusive spaces where everyone can breathe, heal, and belong. She believes everyone deserves to feel seen, safe, and celebrated exactly as they are, and that a community rooted in love and authenticity changes lives.",
-    color: "bg-blue-200",
-    photo: "/headshots/Meg.jpg",
-  },
-  {
-    name: "Matt Synborski",
-    pronouns: "He/Him",
-    role: "Treasurer",
-    bio: "Matt is proud to serve Cazenovia Pride because everyone is welcome here—a value we all should try to uphold. He's a husband, chief technology officer at a Syracuse company, and dad to four kids.",
-    color: "bg-purple-200",
-    photo: "/headshots/Matt.jpg",
-  },
-  {
-    name: "Alyssa Biviano",
-    pronouns: "She/Her",
-    role: "Secretary",
-    bio: "Alyssa is part of Caz Pride because it's more important than ever to be involved in her local community. Her sons have two moms, and she wants them to see that their family is valid and valued in this community.",
-    color: "bg-green-200",
-    photo: "/headshots/Alyssa.png",
-  },
-  {
-    name: "Karina Argentine",
-    pronouns: "She/Her",
-    role: "Director of Programs & Events",
-    bio: "Karina joined the board because it represents community, inclusion, and belonging—values she wants her son to grow up seeing in action. She's a wife, mom to a busy toddler and rescue pup, and lifelong event planner who believes in the power of bringing people together for something bigger than ourselves.",
-    color: "bg-yellow-200",
-    photo: "/headshots/Karina.jpg",
-  },
-  {
-    name: "Beth Ann",
-    pronouns: "She/Her",
-    role: "Director at Large",
-    bio: "Beth Ann is a longtime central New York resident, educator, and community advocate with nearly 25 years in public education. She is also the owner of a local business, BAK Pack Photography. She's honored to serve on the Cazenovia Pride Board and is passionate about supporting visibility, belonging, and joy for the LGBTQ+ community and its allies.",
-    color: "bg-red-200",
-    photo: "/headshots/Beth.jpg",
-  },
-];
-
-const values = [
-  {
-    icon: Heart,
-    title: "Inclusion",
-    description:
-      "We welcome everyone, regardless of identity, background, or experience.",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description:
-      "Building connections that strengthen and support our neighbors.",
-  },
-  {
-    icon: Target,
-    title: "Visibility",
-    description:
-      "Creating safe spaces where everyone can be seen and celebrated.",
-  },
-  {
-    icon: Shield,
-    title: "Advocacy",
-    description:
-      "Standing up for equality and justice in our community and beyond.",
-  },
-];
+import { config } from "@/lib/config";
 
 export default function About() {
   return (
@@ -163,7 +79,7 @@ export default function About() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {boardMembers.map((member) => (
+            {config.boardMembers.map((member) => (
               <div
                 key={member.name}
                 className="card-pride bg-background p-6 text-center"
@@ -216,7 +132,7 @@ export default function About() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
+            {config.values.map((value) => (
               <div
                 key={value.title}
                 className="card-pride bg-background p-6 text-center"

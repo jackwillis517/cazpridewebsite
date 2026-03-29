@@ -1,3 +1,4 @@
+import { config } from "@/lib/config";
 import { NextRequest, NextResponse } from "next/server";
 import { RateLimiterMemory } from "rate-limiter-flexible";
 
@@ -42,20 +43,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Build FormData with Google Form entry IDs
-  // These IDs are for the Google Form used for the contact form
   const formData = new FormData();
-  // Test form ids
-  // formData.append("entry.714757105", name.trim());
-  // formData.append("entry.1098887063", email.trim());
-  // formData.append("entry.1859430256", message.trim());
+  formData.append(config.contact.formNameId!, name.trim());
+  formData.append(config.contact.formEmailId!, email.trim());
+  formData.append(config.contact.formMessageId!, message.trim());
 
-  formData.append(process.env.GOOGLE_FORM_NAME_ID!, name.trim());
-  formData.append(process.env.GOOGLE_FORM_EMAIL_ID!, email.trim());
-  formData.append(process.env.GOOGLE_FORM_MESSAGE_ID!, message.trim());
-
-  const googleFormUrl = process.env.GOOGLE_FORM_URL;
+  const googleFormUrl = config.contact.formURL;
   if (!googleFormUrl) {
-    console.error("GOOGLE_FORM_URL is not configured");
     return NextResponse.json(
       { error: "Server configuration error." },
       { status: 500 },
@@ -68,7 +62,6 @@ export async function POST(request: NextRequest) {
       body: formData,
     });
   } catch (err) {
-    console.error("Failed to submit to Google Forms:", err);
     return NextResponse.json(
       { error: "Failed to submit your message. Please try again later." },
       { status: 502 },

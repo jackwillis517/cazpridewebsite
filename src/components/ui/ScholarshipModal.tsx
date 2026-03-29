@@ -10,6 +10,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { config } from "@/lib/config";
 
 const pillars = [
   {
@@ -157,7 +158,7 @@ export function ScholarshipModal({
             <div className="p-6 border-t border-border">
               <Button asChild variant="rainbow" className="w-full" size="lg">
                 <a
-                  href={process.env.NEXT_PUBLIC_SCHOLARSHIP_FORM_URL || "#"}
+                  href={config.scholarship.formURL}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

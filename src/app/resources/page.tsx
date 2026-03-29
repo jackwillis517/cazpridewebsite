@@ -1,90 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Phone,
+  MessageCircle,
   ExternalLink,
   FileText,
   Heart,
-  Shield,
-  BookOpen,
-  Users,
   AlertCircle,
-  Sun,
-  Snowflake,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const crisisHotlines = [
-  {
-    name: "988 Suicide & Crisis Lifeline",
-    phone: "988",
-    description: "24/7 crisis support for LGBTQIA+ individuals and allies.",
-    url: "https://988lifeline.org",
-  },
-  {
-    name: "The Trevor Project",
-    phone: "1-866-488-7386",
-    description: "Crisis intervention and suicide prevention for LGBTQ+ youth.",
-    url: "https://www.thetrevorproject.org",
-  },
-  {
-    name: "Trans Lifeline",
-    phone: "877-565-8860",
-    description: "Peer support hotline run by and for trans people.",
-    url: "https://translifeline.org",
-  },
-];
-
-const supportOrganizations = [
-  {
-    name: "PFLAG",
-    description:
-      "Support, education, and advocacy for LGBTQ+ people, their parents, and allies.",
-    url: "https://pflag.org",
-    icon: Users,
-  },
-  {
-    name: "GLAAD",
-    description:
-      "Media advocacy organization accelerating acceptance for LGBTQ+ people.",
-    url: "https://www.glaad.org",
-    icon: BookOpen,
-  },
-  {
-    name: "Human Rights Campaign",
-    description:
-      "Working for LGBTQ+ equality through advocacy, education, and outreach.",
-    url: "https://www.hrc.org",
-    icon: Shield,
-  },
-  {
-    name: "Lambda Legal",
-    description:
-      "Legal advocacy for LGBTQ+ rights and civil rights for people with HIV.",
-    url: "https://www.lambdalegal.org",
-    icon: Shield,
-  },
-];
-
-const prideGuides = [
-  {
-    title: "Winter 2025–2026",
-    url: "https://drive.google.com/file/d/1l--CNHeEprtXvsP3U0RyAke9lVeghI7r/preview",
-    seasonIcon: Snowflake,
-    image: "/prideguides/winter_2025_2026.jpg",
-  },
-  {
-    title: "Summer 2025",
-    url: "https://drive.google.com/file/d/1DPRJZ8tIOzb0NetZwTFhV8RarVisIlWp/preview",
-    seasonIcon: Sun,
-    image: "/prideguides/summer_2025.jpg",
-  },
-  {
-    title: "Summer 2024",
-    url: "https://drive.google.com/file/d/1jPgpAJnRKT9AXzlplGcqtSmUwTqOK7n4/preview",
-    seasonIcon: Sun,
-    image: "/prideguides/summer_2024.jpg",
-  },
-];
+import { config } from "@/lib/config";
 
 export default function Resources() {
   return (
@@ -118,7 +43,7 @@ export default function Resources() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {prideGuides.map((guide) => (
+            {config.prideGuides.map((guide) => (
               <a
                 key={guide.title}
                 href={guide.url}
@@ -126,9 +51,11 @@ export default function Resources() {
                 rel="noopener noreferrer"
                 className="card-pride relative overflow-hidden bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
               >
-                <div
-                  className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity"
-                  style={{ backgroundImage: `url(${guide.image})` }}
+                <Image
+                  src={guide.image}
+                  alt={guide.title}
+                  fill
+                  className="object-cover opacity-10 group-hover:opacity-20 transition-opacity"
                 />
                 <div className="relative z-10">
                   <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
@@ -167,7 +94,7 @@ export default function Resources() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {crisisHotlines.map((hotline) => (
+            {config.crisisHotlines.map((hotline) => (
               <div
                 key={hotline.name}
                 className="card-pride bg-background p-6 border-2 border-destructive/20"
@@ -177,11 +104,22 @@ export default function Resources() {
                 </h3>
                 <a
                   href={`tel:${hotline.phone}`}
-                  className="inline-flex items-center gap-2 text-2xl font-bold text-accent mb-3"
+                  className="inline-flex items-center gap-2 text-2xl font-bold text-accent mb-1"
                 >
                   <Phone className="h-5 w-5" />
                   {hotline.phone}
                 </a>
+                {hotline.text && (
+                  <p className="inline-flex items-center gap-2 text-xl font-bold text-accent mb-1">
+                    <MessageCircle className="h-5 w-5" />
+                    {hotline.text}
+                  </p>
+                )}
+                {hotline.subtitle && (
+                  <p className="text-accent font-bold mb-3">
+                    {hotline.subtitle}
+                  </p>
+                )}
                 <p className="text-sm text-muted-foreground mb-4">
                   {hotline.description}
                 </p>
@@ -197,6 +135,10 @@ export default function Resources() {
               </div>
             ))}
           </div>
+
+          <p className="text-sm text-muted-foreground mt-6 italic font-bold text-center">
+            Please note that we are not able to provide crisis support.
+          </p>
         </div>
       </section>
 
@@ -214,7 +156,7 @@ export default function Resources() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {supportOrganizations.map((org) => (
+            {config.supportOrganizations.map((org) => (
               <a
                 key={org.name}
                 href={org.url}
