@@ -115,11 +115,6 @@ export default function Resources() {
                     {hotline.text}
                   </p>
                 )}
-                {hotline.subtitle && (
-                  <p className="text-accent font-bold mb-3">
-                    {hotline.subtitle}
-                  </p>
-                )}
                 <p className="text-sm text-muted-foreground mb-4">
                   {hotline.description}
                 </p>
