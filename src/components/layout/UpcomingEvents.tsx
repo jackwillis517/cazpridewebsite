@@ -62,7 +62,9 @@ export function UpcomingEvents() {
           throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
+        console.log("[UpcomingEvents] Raw Google Calendar API response:", data);
         const formattedEvents = (data.items || []).map(formatGoogleEvent);
+        console.log("[UpcomingEvents] Formatted events:", formattedEvents);
         setAllEvents(formattedEvents);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;

@@ -208,12 +208,14 @@ export const config: {
   ],
   crisisHotlines: [
     {
-      name: "988 Suicide & Crisis Lifeline",
-      phone: "988",
+      name: "Trans Lifeline",
+      phone: "877-565-8860",
       text: "",
-      description: "24/7 crisis support for LGBTQIA+ individuals and allies.",
-      url: "https://988lifeline.org",
+      description:
+        "You can talk openly without fear of 911 being called on you. Peer support hotline run by and for trans people.",
+      url: "https://translifeline.org",
     },
+
     {
       name: "The Trevor Project",
       phone: "1-866-488-7386",
@@ -223,12 +225,11 @@ export const config: {
       url: "https://www.thetrevorproject.org",
     },
     {
-      name: "Trans Lifeline",
-      phone: "877-565-8860",
+      name: "988 Suicide & Crisis Lifeline",
+      phone: "988",
       text: "",
-      description:
-        "You can talk openly without fear of 911 being called on you. Peer support hotline run by and for trans people.",
-      url: "https://translifeline.org",
+      description: "24/7 national crisis support.",
+      url: "https://988lifeline.org",
     },
   ],
   supportOrganizations: [

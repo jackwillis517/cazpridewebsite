@@ -73,8 +73,31 @@ export const EventCache = {
 
 // Helpers
 export const formatGoogleEvent = (item: GoogleEvent): Event => {
-  const startDate = item.start.dateTime ? new Date(item.start.dateTime) : new Date(item.start.date);
-  const endDate = item.end.dateTime ? new Date(item.end.dateTime) : new Date(item.end.date);
+  console.log("[Google Calendar API] Raw event data:", {
+    id: item.id,
+    summary: item.summary,
+    start: item.start,
+    end: item.end,
+    location: item.location,
+  });
+
+  // For all-day events, Google returns "YYYY-MM-DD" with no time.
+  // new Date("YYYY-MM-DD") parses as UTC midnight, which shifts back a day
+  // in local time. Appending "T00:00:00" forces local-time interpretation.
+  const startDate = item.start.dateTime
+    ? new Date(item.start.dateTime)
+    : new Date(item.start.date + "T00:00:00");
+  const endDate = item.end.dateTime
+    ? new Date(item.end.dateTime)
+    : new Date(item.end.date + "T00:00:00");
+
+  console.log("[Google Calendar API] Parsed dates:", {
+    summary: item.summary,
+    rawStart: item.start.dateTime || item.start.date,
+    parsedStartDate: startDate.toString(),
+    rawEnd: item.end.dateTime || item.end.date,
+    parsedEndDate: endDate.toString(),
+  });
 
   const timeString = item.start.dateTime && item.end.dateTime
     ? `${startDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`

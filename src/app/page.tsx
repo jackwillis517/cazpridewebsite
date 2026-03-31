@@ -54,7 +54,9 @@ export default function Home() {
         if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();
+        console.log("[Home] Raw Google Calendar API response:", data);
         const formatted = data.items.map(formatGoogleEvent);
+        console.log("[Home] Formatted events:", formatted);
         setEvents(formatted);
         // EventCache.set(cacheKey, formatted);
       } catch (err) {

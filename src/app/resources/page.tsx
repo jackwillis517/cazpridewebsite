@@ -29,53 +29,6 @@ export default function Resources() {
         </div>
       </section>
 
-      {/* Pride Guides */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Pride Guides
-            </h2>
-            <p className="text-muted-foreground">
-              Our seasonal newsletters keeping the community informed and
-              connected.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {config.prideGuides.map((guide) => (
-              <a
-                key={guide.title}
-                href={guide.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="card-pride relative overflow-hidden bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
-              >
-                <Image
-                  src={guide.image}
-                  alt={guide.title}
-                  fill
-                  className="object-cover opacity-10 group-hover:opacity-20 transition-opacity"
-                />
-                <div className="relative z-10">
-                  <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <FileText className="h-7 w-7 text-accent" />
-                  </div>
-                  <h3 className="font-bold text-foreground mb-1 flex items-center gap-2">
-                    {guide.title}
-                    <guide.seasonIcon className="h-5 w-5 text-accent" />
-                  </h3>
-                  <p className="text-xs text-accent font-medium flex items-center gap-1">
-                    View Guide
-                    <ExternalLink className="h-3 w-3" />
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Crisis Support */}
       <section className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
@@ -130,10 +83,53 @@ export default function Resources() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <p className="text-sm text-muted-foreground mt-6 italic font-bold text-center">
-            Please note that we are not able to provide crisis support.
-          </p>
+      {/* Pride Guides */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+              Pride Guides
+            </h2>
+            <p className="text-muted-foreground">
+              Our seasonal newsletters keeping the community informed and
+              connected.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {config.prideGuides.map((guide) => (
+              <a
+                key={guide.title}
+                href={guide.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card-pride relative overflow-hidden bg-background p-6 hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer group"
+              >
+                <Image
+                  src={guide.image}
+                  alt={guide.title}
+                  fill
+                  className="object-cover opacity-10 group-hover:opacity-20 transition-opacity"
+                />
+                <div className="relative z-10">
+                  <div className="h-14 w-14 rounded-lg bg-pride-soft flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <FileText className="h-7 w-7 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-foreground mb-1 flex items-center gap-2">
+                    {guide.title}
+                    <guide.seasonIcon className="h-5 w-5 text-accent" />
+                  </h3>
+                  <p className="text-xs text-accent font-medium flex items-center gap-1">
+                    View Guide
+                    <ExternalLink className="h-3 w-3" />
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -189,6 +185,9 @@ export default function Resources() {
               Cazenovia Pride maintains connections with local therapists,
               support groups, and community organizations. Contact us for
               personalized referrals and support.
+            </p>
+            <p className="text-sm text-muted-foreground mb-6 italic font-bold">
+              Please note that we are not able to provide crisis support.
             </p>
             <Button asChild variant="rainbow" size="lg">
               <Link href="/contact">Get In Touch</Link>

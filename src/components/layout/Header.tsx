@@ -107,7 +107,7 @@ export function Header() {
           >
             <p className="text-sm md:text-lg font-medium">
               Save the Date!{" "}
-              <span className="font-bold">{nextEvent.title}</span> is coming{" "}
+              <span className="font-bold">{nextEvent.title.length > 30 ? "Our next event" : nextEvent.title}</span> is coming{" "}
               <span className="font-bold">
                 {formatBannerDate(nextEvent.date)}
               </span>
