@@ -1,5 +1,6 @@
 // This configuration file contains all the links to images used on the site and board member information
 // Swap out photos and board members in this file
+// this is a change
 import type { LucideIcon } from "lucide-react";
 import {
   Shield,
