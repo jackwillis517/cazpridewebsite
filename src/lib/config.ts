@@ -94,9 +94,9 @@ export const config: {
   ],
   scholarship: {
     enabled: true,
-    img: `${GOOGLE_DRIVE_BASE_URL}1a0dKgTTI0rQlPbygFOOj8nqInp-MgW_T`,
+    img: `${GOOGLE_DRIVE_BASE_URL}1uM2DoTAZtO8kmApbr1Zk18tW9YtKxmg0`,
     formURL:
-      "https://docs.google.com/forms/d/e/1FAIpQLSeRU9PEebbuZa5n-LwFKJcvGK260R6nQnu6xpgaYzHJlzBb_g/viewform",
+      "https://docs.google.com/forms/d/1lcTNowEO_NreG8IhZOqgwnCX0mMNfkpYuFty3lEvP20/viewform"
   },
   prideFest: {
     imgs: {

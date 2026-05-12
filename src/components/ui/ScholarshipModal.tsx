@@ -90,7 +90,7 @@ export function ScholarshipModal({
                     Deadline
                   </span>
                   <span className="text-sm font-semibold text-foreground">
-                    April 15, 2026
+                    June 1st, 2026
                   </span>
                 </div>
                 <div className="text-center p-3 bg-secondary rounded-lg">
@@ -108,7 +108,7 @@ export function ScholarshipModal({
                     Eligibility
                   </span>
                   <span className="text-sm font-semibold text-foreground">
-                    CHS Seniors
+                    CHS + Madison County Seniors
                   </span>
                 </div>
               </div>

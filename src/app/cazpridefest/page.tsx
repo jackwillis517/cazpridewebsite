@@ -27,7 +27,7 @@ const cards = [
   {
     title: "2026 Scholarship",
     description:
-      "A $500 scholarship open to graduating CHS seniors who identify as LGBTQIA+ and/or are supportive allies. CHS seniors only. Deadline: April 15, 2026.",
+      "A $500 scholarship open to graduating Cazenovia High School and Madison County seniors who identify as LGBTQIA+ and/or are supportive allies. Deadline: June 1st, 2026.",
     image: `${config.scholarship.img}`,
     linkText: "Apply Now",
     href: `${config.scholarship.formURL}` || "#",

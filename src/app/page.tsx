@@ -286,13 +286,13 @@ export default function Home() {
                   <span className="font-semibold text-foreground">
                     $500 scholarship
                   </span>{" "}
-                  open to graduating Cazenovia High School seniors who identify
-                  as LGBTQIA+ and/or are supportive allies.
+                  open to graduating Cazenovia High School and Madison County
+                  seniors who identify as LGBTQIA+ and/or are supportive allies.
                 </p>
                 <p className="text-sm text-muted-foreground mb-6">
                   Deadline:{" "}
                   <span className="font-medium text-foreground">
-                    April 15, 2026
+                    June 1st, 2026
                   </span>
                 </p>
                 <ScholarshipModal
