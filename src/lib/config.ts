@@ -94,7 +94,7 @@ export const config: {
   ],
   scholarship: {
     enabled: true,
-    img: `${GOOGLE_DRIVE_BASE_URL}1uM2DoTAZtO8kmApbr1Zk18tW9YtKxmg0`,
+    img: `${GOOGLE_DRIVE_BASE_URL}1U5cgF6FvasKZ5gHP2q9s-oeG3ur3qhcc`,
     formURL:
       "https://docs.google.com/forms/d/1lcTNowEO_NreG8IhZOqgwnCX0mMNfkpYuFty3lEvP20/viewform"
   },
