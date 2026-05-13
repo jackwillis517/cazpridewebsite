@@ -415,6 +415,25 @@
         background: var(--gradient-rainbow-horizontal);
     }
 
+    /* Same as card-pride but solid yellow top accent (warnings) */
+    .card-pride-warning {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--radius-xl);
+        background-color: hsl(var(--card));
+        box-shadow: var(--shadow-md);
+    }
+
+    .card-pride-warning::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #facc15;
+    }
+
     /* Animated rainbow bar */
     @keyframes rainbow-slide {
         0% {

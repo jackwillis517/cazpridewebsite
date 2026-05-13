@@ -11,6 +11,7 @@ import {
   X,
   Clock,
   GraduationCap,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
@@ -159,6 +160,45 @@ export default function Home() {
       {/* Upcoming Events */}
       <section className="py-20 bg-pride-soft">
         <div className="container mx-auto px-4">
+          {/* Official communications notice — matches event cards, yellow top accent */}
+          <div
+            role="note"
+            className="card-pride-warning bg-background mb-10 md:mb-12 flex flex-col gap-4 p-4 sm:flex-row sm:gap-5 sm:p-6"
+          >
+            <div className="flex shrink-0 justify-center sm:justify-start">
+              <div className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-yellow-400/15">
+                <AlertTriangle
+                  className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-700 dark:text-yellow-500"
+                  aria-hidden
+                />
+              </div>
+            </div>
+            <div className="min-w-0 flex-1 text-center sm:text-left">
+              <p className="text-base sm:text-lg font-semibold text-foreground mb-2 sm:mb-3 leading-snug">
+                A note about official Cazenovia Pride communications
+              </p>
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                All emails and outreach from Cazenovia Pride, Inc. will come
+                exclusively from an{" "}
+                <span className="font-medium text-foreground whitespace-nowrap">
+                  @cazpride.org
+                </span>{" "}
+                email address. If you receive any message related to Caz Pride
+                Fest vendor opportunities, sponsorships, or other organizational
+                business from a different email address, please do not send
+                money or personal information — contact us directly at{" "}
+                <a
+                  href="mailto:info@cazpride.org"
+                  className="font-medium text-accent underline underline-offset-2 hover:opacity-90 break-all sm:break-normal"
+                >
+                  info@cazpride.org
+                </a>{" "}
+                to verify. We will never ask vendors or community members to
+                submit payments through unofficial channels.
+              </p>
+            </div>
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
