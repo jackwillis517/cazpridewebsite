@@ -157,13 +157,14 @@ export const config: {
       photo: `${GOOGLE_DRIVE_BASE_URL}11hLqWDI0RUrRTXz8xrB5L7tER3CW_FLH`,
     },
     {
-      name: "Alyssa Biviano",
+      name: "Beth Ann Kempf",
       pronouns: "She/Her",
       role: "Secretary",
-      bio: "Alyssa is part of Caz Pride because it's more important than ever to be involved in her local community. Her sons have two moms, and she wants them to see that their family is valid and valued in this community.",
-      color: "bg-green-200",
-      photo: `${GOOGLE_DRIVE_BASE_URL}1WMQTM_4x4YQPjGBd-1d0xt2YjM0HtRST`,
+      bio: "Beth Ann is a longtime central New York resident, educator, and community advocate with nearly 25 years in public education. She is also the owner of a local business, BAK Pack Photography. She's honored to serve on the Cazenovia Pride Board and is passionate about supporting visibility, belonging, and joy for the LGBTQ+ community and its allies.",
+      color: "bg-red-200",
+      photo: `${GOOGLE_DRIVE_BASE_URL}1ycmvVHO21Z5yx49CxJNWktpveSAy2Hfw`,
     },
+
     {
       name: "Karina Argentine",
       pronouns: "She/Her",
@@ -173,13 +174,14 @@ export const config: {
       photo: `${GOOGLE_DRIVE_BASE_URL}1G6_sRLxsyCLRF7o88bV8vQGEfzR0DRtx`,
     },
     {
-      name: "Beth Ann Kempf",
+      name: "Shelby Riedl",
       pronouns: "She/Her",
       role: "Director at Large",
-      bio: "Beth Ann is a longtime central New York resident, educator, and community advocate with nearly 25 years in public education. She is also the owner of a local business, BAK Pack Photography. She's honored to serve on the Cazenovia Pride Board and is passionate about supporting visibility, belonging, and joy for the LGBTQ+ community and its allies.",
-      color: "bg-red-200",
-      photo: `${GOOGLE_DRIVE_BASE_URL}1ycmvVHO21Z5yx49CxJNWktpveSAy2Hfw`,
+      bio: "I grew up in Cazenovia before moving to North Carolina, but I always missed the small-town, Gilmore Girls feeling that made Caz so special. Moving back felt like coming home. Seeking a meaningful way to reconnect, I joined Caz Pride. As both a member and longtime ally of the LGBTQ+ community, I’m excited to help foster a welcoming, inclusive, and collaborative space centered around fun, camaraderie, and growth.",
+      color: "bg-green-200",
+      photo: `${GOOGLE_DRIVE_BASE_URL}1i9S0GVcU-89SuBLO_FzINXmxS3VJglRu`,
     },
+
   ],
   values: [
     {

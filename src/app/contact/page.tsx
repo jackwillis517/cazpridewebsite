@@ -87,9 +87,9 @@ export default function Contact() {
                 Mailing Address
               </h3>
               <p className="text-sm text-muted-foreground">
-                53 Albany Street
+                P.O.Box 19
                 <br />
-                Cazenovia, NY
+                Cazenovia NY 13035
               </p>
             </div>
 

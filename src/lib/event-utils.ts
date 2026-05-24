@@ -5,6 +5,7 @@ export interface Event {
   id: string;
   title: string;
   date: Date;
+  endDate: Date;
   time: string;
   location: string;
   description: string;
@@ -54,6 +55,7 @@ export const EventCache = {
       return data.map((event) => ({
         ...event,
         date: new Date(event.date),
+        endDate: new Date(event.endDate),
       }));
     } catch (e) {
       return null;
@@ -71,16 +73,39 @@ export const EventCache = {
   },
 };
 
+export function getStartOfDay(date: Date): Date {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+export function isUpcomingEvent(event: Event, now = new Date()): boolean {
+  if (event.endDate.getTime() <= now.getTime()) return false;
+
+  const today = getStartOfDay(now);
+  const eventStartDay = getStartOfDay(event.date);
+  return eventStartDay.getTime() >= today.getTime();
+}
+
+export function filterUpcomingEvents(
+  events: Event[],
+  now = new Date(),
+): Event[] {
+  return events
+    .filter((e) => isUpcomingEvent(e, now))
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
+}
+
+export function getNextUpcomingEvent(
+  events: Event[],
+  now = new Date(),
+): Event | null {
+  const upcoming = filterUpcomingEvents(events, now);
+  return upcoming[0] ?? null;
+}
+
 // Helpers
 export const formatGoogleEvent = (item: GoogleEvent): Event => {
-  console.log("[Google Calendar API] Raw event data:", {
-    id: item.id,
-    summary: item.summary,
-    start: item.start,
-    end: item.end,
-    location: item.location,
-  });
-
   // For all-day events, Google returns "YYYY-MM-DD" with no time.
   // new Date("YYYY-MM-DD") parses as UTC midnight, which shifts back a day
   // in local time. Appending "T00:00:00" forces local-time interpretation.
@@ -90,14 +115,6 @@ export const formatGoogleEvent = (item: GoogleEvent): Event => {
   const endDate = item.end.dateTime
     ? new Date(item.end.dateTime)
     : new Date(item.end.date + "T00:00:00");
-
-  console.log("[Google Calendar API] Parsed dates:", {
-    summary: item.summary,
-    rawStart: item.start.dateTime || item.start.date,
-    parsedStartDate: startDate.toString(),
-    rawEnd: item.end.dateTime || item.end.date,
-    parsedEndDate: endDate.toString(),
-  });
 
   const timeString = item.start.dateTime && item.end.dateTime
     ? `${startDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
@@ -127,6 +144,7 @@ export const formatGoogleEvent = (item: GoogleEvent): Event => {
     id: item.id,
     title: item.summary,
     date: startDate,
+    endDate,
     time: timeString,
     location: cleanLocation(item.location),
     description,

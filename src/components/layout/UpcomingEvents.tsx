@@ -12,7 +12,11 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Event, formatGoogleEvent } from "@/lib/event-utils";
+import {
+  Event,
+  filterUpcomingEvents,
+  formatGoogleEvent,
+} from "@/lib/event-utils";
 
 const PAGE_SIZE = 5;
 
@@ -62,9 +66,9 @@ export function UpcomingEvents() {
           throw new Error(`HTTP error! status: ${response.status}`);
 
         const data = await response.json();
-        console.log("[UpcomingEvents] Raw Google Calendar API response:", data);
-        const formattedEvents = (data.items || []).map(formatGoogleEvent);
-        console.log("[UpcomingEvents] Formatted events:", formattedEvents);
+        const formattedEvents = filterUpcomingEvents(
+          (data.items || []).map(formatGoogleEvent),
+        );
         setAllEvents(formattedEvents);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;

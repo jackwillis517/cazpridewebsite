@@ -16,7 +16,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
 // import { EventCache } from "@/lib/event-utils";
-import { Event, formatGoogleEvent } from "@/lib/event-utils";
+import {
+  Event,
+  filterUpcomingEvents,
+  formatGoogleEvent,
+} from "@/lib/event-utils";
 import { config } from "@/lib/config";
 
 export default function Home() {
@@ -48,16 +52,16 @@ export default function Home() {
         const timeMin = now.toISOString();
 
         const response = await fetch(
-          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=3`,
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=20`,
           { signal: controller.signal },
         );
 
         if (!response.ok) throw new Error("Failed to fetch");
 
         const data = await response.json();
-        console.log("[Home] Raw Google Calendar API response:", data);
-        const formatted = data.items.map(formatGoogleEvent);
-        console.log("[Home] Formatted events:", formatted);
+        const formatted = filterUpcomingEvents(
+          (data.items || []).map(formatGoogleEvent),
+        ).slice(0, 3);
         setEvents(formatted);
         // EventCache.set(cacheKey, formatted);
       } catch (err) {

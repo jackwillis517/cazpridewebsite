@@ -6,7 +6,11 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, Heart, MousePointerClick } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Event, formatGoogleEvent } from "@/lib/event-utils";
+import {
+  Event,
+  formatGoogleEvent,
+  getNextUpcomingEvent,
+} from "@/lib/event-utils";
 // EventCache
 
 const navLinks = [
@@ -62,17 +66,19 @@ export function Header() {
         const timeMin = now.toISOString();
 
         const response = await fetch(
-          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=1`,
+          `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${CALENDAR_API_KEY}&timeMin=${timeMin}&singleEvents=true&orderBy=startTime&maxResults=20`,
           { signal: controller.signal },
         );
 
         if (!response.ok) return;
 
         const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          const formatted = formatGoogleEvent(data.items[0]);
-          setNextEvent(formatted);
-          // EventCache.set(cacheKey, [formatted]);
+        const next = getNextUpcomingEvent(
+          (data.items || []).map(formatGoogleEvent),
+        );
+        if (next) {
+          setNextEvent(next);
+          // EventCache.set(cacheKey, [next]);
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
