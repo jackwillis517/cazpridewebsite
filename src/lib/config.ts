@@ -68,6 +68,7 @@ export const config: {
   gallery: string[];
   scholarship: {
     enabled: boolean;
+    scholarship_deadline: string;
     img: string;
     formURL: string;
   };
@@ -94,9 +95,10 @@ export const config: {
   ],
   scholarship: {
     enabled: true,
+    scholarship_deadline: "06/1/2026",
     img: `${GOOGLE_DRIVE_BASE_URL}1U5cgF6FvasKZ5gHP2q9s-oeG3ur3qhcc`,
     formURL:
-      "https://docs.google.com/forms/d/1lcTNowEO_NreG8IhZOqgwnCX0mMNfkpYuFty3lEvP20/viewform"
+      "https://docs.google.com/forms/d/1lcTNowEO_NreG8IhZOqgwnCX0mMNfkpYuFty3lEvP20/viewform",
   },
   prideFest: {
     imgs: {
@@ -181,7 +183,6 @@ export const config: {
       color: "bg-green-200",
       photo: `${GOOGLE_DRIVE_BASE_URL}1i9S0GVcU-89SuBLO_FzINXmxS3VJglRu`,
     },
-
   ],
   values: [
     {

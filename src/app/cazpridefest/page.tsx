@@ -6,6 +6,7 @@ import { ArrowRight, MapPin, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScholarshipModal } from "@/components/ui/ScholarshipModal";
 import { config } from "@/lib/config";
+import { formatScholarshipDeadline, isScholarshipActive } from "@/lib/utils";
 
 const cards = [
   {
@@ -26,8 +27,6 @@ const cards = [
   },
   {
     title: "2026 Scholarship",
-    description:
-      "A $500 scholarship open to graduating Cazenovia High School and Madison County seniors who identify as LGBTQIA+ and/or are supportive allies. Deadline: June 1st, 2026.",
     image: `${config.scholarship.img}`,
     linkText: "Apply Now",
     href: `${config.scholarship.formURL}` || "#",
@@ -35,6 +34,8 @@ const cards = [
 ];
 
 export default function CazPrideFest() {
+  const scholarshipDescription = `A $500 scholarship open to graduating Cazenovia High School and Madison County seniors who identify as LGBTQIA+ and/or are supportive allies. Deadline: ${formatScholarshipDeadline(config.scholarship.scholarship_deadline)}.`;
+
   return (
     <>
       {/* Hero */}
@@ -85,10 +86,10 @@ export default function CazPrideFest() {
           <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
             Get Involved
           </h2>
-          <div className={`grid grid-cols-1 ${config.scholarship.enabled ? "md:grid-cols-3 max-w-5xl" : "md:grid-cols-2 max-w-3xl"} gap-8 mx-auto`}>
+          <div className={`grid grid-cols-1 ${isScholarshipActive() ? "md:grid-cols-3 max-w-5xl" : "md:grid-cols-2 max-w-3xl"} gap-8 mx-auto`}>
             {cards.map((card) => {
               if (card.title === "2026 Scholarship") {
-                if (!config.scholarship.enabled) return null;
+                if (!isScholarshipActive()) return null;
                 return (
                   <ScholarshipModal
                     key={card.title}
@@ -110,7 +111,7 @@ export default function CazPrideFest() {
                             {card.title}
                           </h3>
                           <p className="text-sm text-muted-foreground mb-4">
-                            {card.description}
+                            {scholarshipDescription}
                           </p>
                           <span className="inline-flex items-center gap-1 text-accent font-medium text-sm group-hover:gap-2 transition-all">
                             Learn More

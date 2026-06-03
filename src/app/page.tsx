@@ -22,6 +22,7 @@ import {
   formatGoogleEvent,
 } from "@/lib/event-utils";
 import { config } from "@/lib/config";
+import { formatScholarshipDeadline, isScholarshipActive } from "@/lib/utils";
 
 export default function Home() {
   const CALENDAR_API_KEY =
@@ -297,7 +298,7 @@ export default function Home() {
       </section>
 
       {/* Scholarship */}
-      {config.scholarship.enabled === true && (
+      {isScholarshipActive() && (
         <section className="py-16 bg-background">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
@@ -336,7 +337,9 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground mb-6">
                   Deadline:{" "}
                   <span className="font-medium text-foreground">
-                    June 1st, 2026
+                    {formatScholarshipDeadline(
+                      config.scholarship.scholarship_deadline
+                    )}
                   </span>
                 </p>
                 <ScholarshipModal

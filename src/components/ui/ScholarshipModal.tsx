@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { config } from "@/lib/config";
+import { formatScholarshipDeadline, isScholarshipActive } from "@/lib/utils";
 
 const pillars = [
   {
@@ -41,6 +42,8 @@ export function ScholarshipModal({
   trigger: (open: () => void) => React.ReactNode;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!isScholarshipActive()) return null;
 
   return (
     <>
@@ -90,7 +93,9 @@ export function ScholarshipModal({
                     Deadline
                   </span>
                   <span className="text-sm font-semibold text-foreground">
-                    June 1st, 2026
+                    {formatScholarshipDeadline(
+                      config.scholarship.scholarship_deadline
+                    )}
                   </span>
                 </div>
                 <div className="text-center p-3 bg-secondary rounded-lg">
