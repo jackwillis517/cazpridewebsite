@@ -27,10 +27,12 @@ type pridefest = {
     hero: string;
     vendor: string;
     volunteer: string;
+    parade: string;
   };
   formURLs: {
     vendorFormURL: string;
     volunteerFormURL: string;
+    paradeSignUpFormURL: string;
   };
 };
 
@@ -104,13 +106,16 @@ export const config: {
     imgs: {
       hero: `${GOOGLE_DRIVE_BASE_URL}1eqw4V8wYpVfhIy3yNmG0VjsBmAVAyN9Q`,
       vendor: `${GOOGLE_DRIVE_BASE_URL}1wKQMou8w_1SyAHwoEmerfd4N9GoxX6f8`,
-      volunteer: `${GOOGLE_DRIVE_BASE_URL}1QwksJOdZFCOdzLVuCPfH50Q3kJ6TQpBy`,
+      volunteer: `${GOOGLE_DRIVE_BASE_URL}1QD4jZ-16sLt7XNv9WZem_FhCV_0ZX579`,
+      parade: `${GOOGLE_DRIVE_BASE_URL}1d-Po939hznYkPAF-6m04Pbqvo42zgSYt`,
     },
     formURLs: {
       vendorFormURL:
         "https://docs.google.com/forms/d/e/1FAIpQLScc7JN3K5focq2bKX6qH9C24EIuMcVrKXhVYUwNupqbzfBDgQ/viewform",
       volunteerFormURL:
         "https://docs.google.com/forms/d/e/1FAIpQLSfe66iLoaaOV0GFs0yqvg-_da1anWFs4piWh_7sT8fyt-dBMw/viewform",
+      paradeSignUpFormURL:
+        "https://docs.google.com/forms/d/e/1FAIpQLSfoZHEGE8dHyDQGakS318OvemHGPNtmKgDwgvBJlJ5_phj-iQ/viewform",
     },
   },
   prideGuides: [

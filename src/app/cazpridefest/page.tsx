@@ -26,6 +26,14 @@ const cards = [
     href: `${config.prideFest.formURLs.volunteerFormURL}` || "#",
   },
   {
+    title: "Parade Sign-Up",
+    description:
+      "March with us! Sign up to join the Pride Fest parade and celebrate our community in full color.",
+    image: `${config.prideFest.imgs.parade}`,
+    linkText: "Sign Up for the Parade",
+    href: `${config.prideFest.formURLs.paradeSignUpFormURL}` || "#",
+  },
+  {
     title: "2026 Scholarship",
     image: `${config.scholarship.img}`,
     linkText: "Apply Now",
@@ -34,6 +42,7 @@ const cards = [
 ];
 
 export default function CazPrideFest() {
+  const showScholarship = isScholarshipActive();
   const scholarshipDescription = `A $500 scholarship open to graduating Cazenovia High School and Madison County seniors who identify as LGBTQIA+ and/or are supportive allies. Deadline: ${formatScholarshipDeadline(config.scholarship.scholarship_deadline)}.`;
 
   return (
@@ -86,10 +95,10 @@ export default function CazPrideFest() {
           <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-12">
             Get Involved
           </h2>
-          <div className={`grid grid-cols-1 ${isScholarshipActive() ? "md:grid-cols-3 max-w-5xl" : "md:grid-cols-2 max-w-3xl"} gap-8 mx-auto`}>
+          <div className={`grid grid-cols-1 ${showScholarship ? "md:grid-cols-2 lg:grid-cols-4 max-w-6xl" : "md:grid-cols-3 max-w-5xl"} gap-8 mx-auto`}>
             {cards.map((card) => {
               if (card.title === "2026 Scholarship") {
-                if (!isScholarshipActive()) return null;
+                if (!showScholarship) return null;
                 return (
                   <ScholarshipModal
                     key={card.title}
