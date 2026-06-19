@@ -165,6 +165,57 @@ export default function Home() {
       {/* Upcoming Events */}
       <section className="py-20 bg-pride-soft">
         <div className="container mx-auto px-4">
+          {/* Important organizational statement */}
+          <div
+            role="note"
+            className="mb-6 md:mb-8 flex flex-col gap-4 rounded-xl border-2 border-red-600 bg-background p-4 shadow-md sm:flex-row sm:gap-5 sm:p-6"
+          >
+            <div className="flex shrink-0 justify-center sm:justify-start">
+              <div className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-red-500/15">
+                <AlertTriangle
+                  className="h-5 w-5 sm:h-6 sm:w-6 text-red-600"
+                  aria-hidden
+                />
+              </div>
+            </div>
+            <div className="min-w-0 flex-1 text-center sm:text-left">
+              <p className="text-base sm:text-lg font-semibold text-foreground mb-2 sm:mb-3 leading-snug">
+                An Important Statement from Cazenovia Pride Inc.
+              </p>
+              <div className="space-y-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                <p>
+                  Cazenovia Pride Inc. is cancelling this year&apos;s Pride
+                  Festival and all associated events, and we are dissolving as an
+                  organization.
+                </p>
+                <p>
+                  This decision follows serious criminal charges against Travis
+                  Longo, the founder of Cazenovia Pride Fest and a longtime
+                  figure in our organization. Travis Longo has no further
+                  affiliation with Cazenovia Pride Inc.
+                </p>
+                <p>
+                  Regarding refunds: All ticket purchases and donations will be
+                  fully refunded. If you have not yet received yours, please
+                  contact us at{" "}
+                  <a
+                    href="mailto:info@cazpride.org"
+                    className="font-medium text-accent underline underline-offset-2 hover:opacity-90 break-all sm:break-normal"
+                  >
+                    info@cazpride.org
+                  </a>
+                  .
+                </p>
+                <p>
+                  We are deeply sorry for the pain and disappointment this
+                  causes our community. The years of support, love, and
+                  solidarity you have shown us have meant everything. Thank
+                  you.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Official communications notice — matches event cards, yellow top accent */}
           <div
             role="note"
