@@ -117,7 +117,7 @@ export default function Home() {
             </h1>
 
             {/* CTAs */}
-            <div
+            {/* <div
               className="flex flex-col sm:flex-row gap-4 justify-center mb-6 animate-fade-in-up"
               style={{ animationDelay: "0.3s" }}
             >
@@ -146,7 +146,7 @@ export default function Home() {
                   Upcoming Events
                 </Link>
               </Button>
-            </div>
+            </div> */}
 
             {/* Mission Statement */}
             <p
@@ -162,8 +162,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Events */}
-      <section className="py-20 bg-pride-soft">
+      {/* Important notices */}
+      <section className="py-12 md:py-16 bg-pride-soft">
         <div className="container mx-auto px-4">
           {/* Important organizational statement */}
           <div
@@ -190,7 +190,7 @@ export default function Home() {
                 </p>
                 <p>
                   This decision follows serious criminal charges against Travis
-                  Longo, the founder of Cazenovia Pride Fest and a longtime
+                  Longo, the founder of Caz Pride Fest and a longtime
                   figure in our organization. Travis Longo has no further
                   affiliation with Cazenovia Pride Inc.
                 </p>
@@ -219,7 +219,7 @@ export default function Home() {
           {/* Official communications notice — matches event cards, yellow top accent */}
           <div
             role="note"
-            className="card-pride-warning bg-background mb-10 md:mb-12 flex flex-col gap-4 p-4 sm:flex-row sm:gap-5 sm:p-6"
+            className="card-pride-warning bg-background flex flex-col gap-4 p-4 sm:flex-row sm:gap-5 sm:p-6"
           >
             <div className="flex shrink-0 justify-center sm:justify-start">
               <div className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-yellow-400/15">
@@ -254,7 +254,13 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
+      {/* Upcoming Events */}
+      {false && (
+      <section className="py-20 bg-pride-soft">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
@@ -347,6 +353,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Scholarship */}
       {isScholarshipActive() && (
@@ -413,7 +420,7 @@ export default function Home() {
       )}
 
       {/* Monthly Donation CTA */}
-      <section className="py-16 bg-secondary">
+      {/* <section className="py-16 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Link
@@ -441,9 +448,10 @@ export default function Home() {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Photo Gallery Preview */}
+      {false && (
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
@@ -481,9 +489,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Final CTA */}
-      <section className="py-20 bg-rainbow">
+      {/* <section className="py-20 bg-rainbow">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Together, We Are Stronger
@@ -506,7 +515,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Event Detail Modal */}
       {selectedEvent && (

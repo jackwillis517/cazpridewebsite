@@ -14,12 +14,12 @@ import {
 
 const quickLinks = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Resources", path: "/resources" },
-  { name: "Events", path: "/events" },
+  // { name: "About", path: "/about" },
+  // { name: "Resources", path: "/resources" },
+  // { name: "Events", path: "/events" },
   // { name: "Gallery", path: "/gallery" },
-  { name: "Donate", path: "/donate" },
-  { name: "Contact", path: "/contact" },
+  // { name: "Donate", path: "/donate" },
+  // { name: "Contact", path: "/contact" },
 ];
 
 const socialLinks = [
@@ -120,14 +120,14 @@ export function Footer() {
                 </a>
               ))}
             </div>
-            <Link
+            {/* <Link
               href="/donate"
               className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent/80 transition-colors"
             >
               <Heart className="h-4 w-4" />
               Support Our Mission
-            </Link>
-            <div className="mt-6">
+            </Link> */}
+            {/* <div className="mt-6">
               <p className="text-sm font-medium text-foreground mb-2">
                 Website Created By:
               </p>
@@ -175,7 +175,7 @@ export function Footer() {
                   </a>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
 

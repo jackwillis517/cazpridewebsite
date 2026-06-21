@@ -15,12 +15,12 @@ import {
 
 const navLinks = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Resources", path: "/resources" },
-  { name: "Events", path: "/events" },
+  // { name: "About", path: "/about" },
+  // { name: "Resources", path: "/resources" },
+  // { name: "Events", path: "/events" },
   // { name: "Gallery", path: "/gallery" },
-  { name: "Contact", path: "/contact" },
-  { name: "cazpridefest", path: "/cazpridefest" },
+  // { name: "Contact", path: "/contact" },
+  // { name: "cazpridefest", path: "/cazpridefest" },
 ];
 
 export function Header() {
@@ -183,14 +183,14 @@ export function Header() {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden lg:flex items-center gap-3">
+            {/* <div className="hidden lg:flex items-center gap-3">
               <Button asChild variant="rainbow" size="lg">
                 <Link href="/donate" className="flex items-center gap-2">
                   <Heart className="h-4 w-4" />
                   Donate
                 </Link>
               </Button>
-            </div>
+            </div> */}
 
             {/* Mobile Menu Button */}
             <button
@@ -227,7 +227,7 @@ export function Header() {
                       : link.name}
                   </Link>
                 ))}
-                <div className="pt-4 border-t border-border mt-2">
+                {/* <div className="pt-4 border-t border-border mt-2">
                   <Button
                     asChild
                     variant="rainbow"
@@ -242,7 +242,7 @@ export function Header() {
                       Donate
                     </Link>
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
